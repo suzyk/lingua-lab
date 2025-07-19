@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Video from "../Components/Video";
 import { VideoHomework } from "../Model";
 import "../App.css";
-import { useWindowSize } from "@react-hook/window-size"; // optional
-import Confetti from "react-confetti";
 import ConfettiExplosion from "react-confetti-explosion";
 
 let VIDEO_STORAGE = "videos";
@@ -33,7 +31,6 @@ const Homework = () => {
         ]
       : storedVideos
   );
-  const [width, height] = useWindowSize();
 
   // add local storage to store data
   // add checkmark on Complete button
