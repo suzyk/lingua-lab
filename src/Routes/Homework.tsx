@@ -4,12 +4,13 @@ import { VideoHomework } from "../Model";
 import "../App.css";
 import { useWindowSize } from "@react-hook/window-size"; // optional
 import Confetti from "react-confetti";
+import ConfettiExplosion from "react-confetti-explosion";
 
 let VIDEO_STORAGE = "videos";
 
 const Homework = () => {
   const storedVideos = JSON.parse(localStorage.getItem(VIDEO_STORAGE) || "[]");
-  console.log(storedVideos);
+
   const [videos, setVideos] = useState<VideoHomework[]>(
     storedVideos.length === 0
       ? [
@@ -66,17 +67,16 @@ const Homework = () => {
         ))}
       </ul>
       {allWatched && (
-        <>
-          <Confetti width={width} height={height} />
-          <div className="celebration">
-            <h1>Good job! 🎉</h1>
-            <img
-              src="../images/medal.png"
-              alt="Medal"
-              style={{ width: "30%" }}
-            />
-          </div>
-        </>
+        <div className=" overlay">
+          <ConfettiExplosion
+            particleCount={250}
+            duration={4500}
+            force={0.8}
+            width={1200}
+          />
+          <h1>Good job! 🎉</h1>
+          <img src="../images/medal.png" alt="Medal" style={{ width: "30%" }} />
+        </div>
       )}
     </div>
   );
