@@ -53,19 +53,41 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 1000 !important;
+  z-index: 999 !important;
   animation: pop 1.6s ease;
+}
+.deck {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .wordCard {
-  width: 150px;
-  height: 50px;
-  background-color: pink;
+  width: 120px;
+  height: 120px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  background-color: #b2d5f7;
   border-radius: 5px;
 }
+.wordCard:hover {
+  border-color: #888;
+}
+.wordCard.selected {
+  border-color: #007bff;
+  background-color: #e0f0ff;
+}
+.wordCard.matched {
+  background-color: #d4edda;
+  border-color: #28a745;
+  cursor: default;
+}
 .wordCard__image {
-  width: 150px;
-  height: 50px;
+  width: 80%;
+  height: 80%;
   background-color: rgb(104, 192, 255);
   border-radius: 5px;
 }
@@ -75,7 +97,11 @@ img {
 }
 
 .gameBoard {
-  width: 80vw;
-  height: 60vh;
+  width: 60vw;
+  height: 80vh;
   background-color: rgb(30, 92, 1);
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  overflow: none;
 }

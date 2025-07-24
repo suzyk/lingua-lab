@@ -1,18 +1,43 @@
 import React from "react";
 import "../App.css";
-import { Word } from "../Model";
+import { Card_Types, Word } from "../Model";
 
 interface Props {
   word: Word;
-  type: "TEXT" | "IMAGE";
+  type: Card_Types;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  isSelected: boolean;
+  isMatched: boolean;
+  disabled: boolean;
 }
-const WordCard = ({ word, type }: Props) => {
-  return type === "TEXT" ? (
-    <div className="wordCard">{word.text}</div>
+const WordCard = ({
+  word,
+  type,
+  onClick,
+  isSelected,
+  isMatched,
+  disabled,
+}: Props) => {
+  return type === Card_Types.TEXT ? (
+    <button
+      className={`wordCard ${isSelected ? "selected" : ""} ${
+        isMatched ? "matched" : ""
+      }`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {word.text}
+    </button>
   ) : (
-    <div className="wordCard__image">
+    <button
+      className={`wordCard ${isSelected ? "selected" : ""} ${
+        isMatched ? "matched" : ""
+      }`}
+      onClick={onClick}
+      disabled={disabled}
+    >
       <img src={word.image_url} alt={word.text} />
-    </div>
+    </button>
   );
 };
 

@@ -8,3 +8,8 @@ export interface Word {
   audio_url?: string;
   image_url: string;
 }
+
+export enum Card_Types {
+  TEXT,
+  IMAGE,
+}
