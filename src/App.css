@@ -85,6 +85,10 @@
   border-color: #28a745;
   cursor: default;
 }
+.wordCard.wrong {
+  background-color: #eac4c0;
+  border-color: #a72e28;
+}
 .wordCard__image {
   width: 80%;
   height: 80%;

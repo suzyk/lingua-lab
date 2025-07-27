@@ -9,6 +9,7 @@ interface Props {
   isSelected: boolean;
   isMatched: boolean;
   disabled: boolean;
+  wrong: boolean;
 }
 const WordCard = ({
   word,
@@ -17,12 +18,13 @@ const WordCard = ({
   isSelected,
   isMatched,
   disabled,
+  wrong,
 }: Props) => {
   return type === Card_Types.TEXT ? (
     <button
       className={`wordCard ${isSelected ? "selected" : ""} ${
         isMatched ? "matched" : ""
-      }`}
+      } ${wrong ? "wrong" : ""}`}
       onClick={onClick}
       disabled={disabled}
     >
@@ -32,7 +34,7 @@ const WordCard = ({
     <button
       className={`wordCard ${isSelected ? "selected" : ""} ${
         isMatched ? "matched" : ""
-      }`}
+      } ${wrong ? "wrong" : ""}`}
       onClick={onClick}
       disabled={disabled}
     >

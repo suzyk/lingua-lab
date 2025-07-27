@@ -20,6 +20,7 @@ const Games = () => {
   const [selectedText, setSelectedText] = useState<Word | null>(null);
   const [selectedImage, setSelectedImage] = useState<Word | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
+  const [wrong, setWrong] = useState<boolean>(false);
 
   const [randomizer] = useState(() => randomNoRepeats(words.length));
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
@@ -38,14 +39,17 @@ const Games = () => {
         setMatched([...matched, selectedText.text]);
       } else {
         // add red color
+        console.log("Wrong!");
+        setWrong(true);
       }
       const timer = setTimeout(() => {
         setSelectedText(null);
         setSelectedImage(null);
-      }, 300);
+        setWrong(false);
+      }, 500);
       return () => clearTimeout(timer);
     }
-  }, [selectedImage, selectedText]);
+  }, [selectedImage, selectedText, wrong]);
 
   useEffect(() => {
     if (allMatched) {
@@ -77,6 +81,7 @@ const Games = () => {
                   (selectedText != null &&
                     selectedText.text !== words[randNum].text)
                 }
+                wrong={selectedText?.text === words[randNum].text && wrong}
               />
             ))}
         </div>
@@ -98,6 +103,7 @@ const Games = () => {
                   (selectedImage != null &&
                     selectedImage.text !== words[randNum].text)
                 }
+                wrong={selectedImage?.text === words[randNum].text && wrong}
               />
             ))}
         </div>
