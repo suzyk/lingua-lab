@@ -44,7 +44,7 @@ const wordReducer = (
       console.log("match wrong!");
       return {
         ...state,
-        wrong: false,
+        wrong: action.payload,
       };
     }
     case GameActionTypes.RESET_SELECTION: {
@@ -110,7 +110,7 @@ const Games = () => {
         });
       } else {
         // add red color
-        //console.log("Wrong!");
+        console.log("Wrong!");
         //setWrong(true);
         dispatch({ type: GameActionTypes.WRONG, payload: true });
       }
@@ -123,6 +123,8 @@ const Games = () => {
         dispatch({ type: GameActionTypes.RESET_SELECTION });
       }, 500);
       return () => clearTimeout(timer);
+    } else {
+      dispatch({ type: GameActionTypes.WRONG, payload: false });
     }
   }, [state.selectedImage, state.selectedText, state.wrong]);
 
