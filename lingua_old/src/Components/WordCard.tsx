@@ -1,6 +1,6 @@
 import React from "react";
 import "../App.css";
-import { Card_Types, Word } from "../Model";
+import { Card_Types, Word, GameAction, WordGameState } from "../Model";
 
 interface Props {
   word: Word;

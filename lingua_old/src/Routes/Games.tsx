@@ -139,6 +139,7 @@ const Games = () => {
   }, [allMatched]);
   //onClick={() => handleCardClick(words[randNum], Card_Types.TEXT)}
   //handleCardClick(words[randNum], Card_Types.IMAGE)
+
   return (
     <div>
       <h1>Games</h1>
