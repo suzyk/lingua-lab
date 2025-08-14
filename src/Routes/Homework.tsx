@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Video from "../Components/Video";
 import type { VideoHomework } from "../Model";
-import "../App.css";
 import ConfettiExplosion from "react-confetti-explosion";
 
 let VIDEO_STORAGE = "videos";
@@ -53,10 +52,13 @@ const Homework = () => {
     );
   };
   return (
-    <div>
-      <h1>Homework</h1>
-      <h3>Don't forget to click 'Done' button to unlock your medal!</h3>
-      <ul>
+    <div className="flex items-center justify-center flex-col mt-6 mb-10 w-11/12 mx-auto rounded-4xl border-8 border-gray-200 shadow-[0_0px_20px_rgba(0,0,0,0.6)]">
+      <h3 className="m-6 text-gray-500 font-medium text-xl">
+        Don't forget to click{" "}
+        <strong className="text-blue-600 underline">'Done'</strong> button to
+        unlock your medal! 🏅
+      </h3>
+      <ul className="flex flex-col gap-10 pb-10">
         {videos.map((video, index) => (
           <li key={index}>
             <Video video={video} handleWatched={() => handleWatched(index)} />

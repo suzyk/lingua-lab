@@ -1,5 +1,4 @@
 import React from "react";
-import "../App.css";
 import { Card_Types } from "../Model";
 import type { Word } from "../Model";
 

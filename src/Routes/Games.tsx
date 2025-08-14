@@ -4,7 +4,6 @@ import { Card_Types, GameActionTypes } from "../Model"; // runtime values
 import type { Word, GameAction, WordGameState } from "../Model"; // types only
 import { randomNoRepeats } from "../Util";
 import ConfettiExplosion from "react-confetti-explosion";
-import "../App.css";
 
 const wordReducer = (
   state: WordGameState,
@@ -36,7 +35,6 @@ const wordReducer = (
       return { ...state, matched: [...state.matched, action.payload] };
     }
     case GameActionTypes.WRONG: {
-      console.log("match wrong!");
       return {
         ...state,
         wrong: action.payload,
@@ -121,7 +119,7 @@ const Games = () => {
     } else {
       dispatch({ type: GameActionTypes.WRONG, payload: false });
     }
-  }, [state.selectedImage, state.selectedText, state.wrong]);
+  }, [state.selectedImage, state.selectedText]);
 
   useEffect(() => {
     if (allMatched) {
