@@ -19,8 +19,9 @@ const Video = ({ video, handleWatched }: Props) => {
   };
   //items-start aligns all children to the top, so the video won’t be cut off.
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center ">
       <iframe
+        className="bg-gray-200"
         width="560"
         height="315"
         src={video.url}
