@@ -2,7 +2,7 @@ import { useState, useEffect, useReducer } from "react";
 import WordCard from "../Components/WordCard";
 import { Card_Types, GameActionTypes } from "../Model"; // runtime values
 import type { Word, GameAction, WordGameState } from "../Model"; // types only
-import { randomNoRepeats } from "../Util";
+import { randomNoRepeats } from "../Util/Util";
 import ConfettiExplosion from "react-confetti-explosion";
 
 const wordReducer = (

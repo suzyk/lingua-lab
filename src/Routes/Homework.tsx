@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import Video from "../Components/Video";
 import type { VideoHomework } from "../Model";
 import ConfettiExplosion from "react-confetti-explosion";
-
-let VIDEO_STORAGE = "videos";
+import useFade from "../Util/useFade";
 
 const Homework = () => {
-  const storedVideos = JSON.parse(localStorage.getItem(VIDEO_STORAGE) || "[]");
+  const storedVideos = JSON.parse(localStorage.getItem("videos") || "[]");
 
   const [videos, setVideos] = useState<VideoHomework[]>(
     storedVideos.length === 0
@@ -31,63 +30,49 @@ const Homework = () => {
       : storedVideos
   );
 
-  // add local storage to store data
-  // add checkmark on Complete button
-  // add checkmark on the right top corner of video
-  // add quiz
-  const allWatched = videos.every((video) => video.isWatched);
+  const allWatched = videos.every((v) => v.isWatched);
   const [progress, setProgress] = useState(0);
   const [showPage, setShowPage] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
 
-  // save watched videos in local storage
-  useEffect(() => {
-    localStorage.setItem(VIDEO_STORAGE, JSON.stringify(videos));
-  }, [videos]);
+  // Fade controller for the celebrate modal (1s)
+  const { shouldRender, fadeClass } = useFade(celebrate, {
+    fadeIn: false,
+    fadeOut: true,
+    duration: 1000,
+  });
 
   useEffect(() => {
-    let start = 0;
-    const interval = setInterval(() => {
-      start += 1; // small increment
-      setProgress(start);
-      if (start >= 100) {
-        clearInterval(interval);
-        setShowPage(true); // reveal page after 100%
-      }
-    }, 15); // 15ms * 100 = 1500ms = 1.5s total
-    return () => clearInterval(interval);
+    localStorage.setItem("videos", JSON.stringify(videos));
+  }, [videos]);
+
+  // Progress bar: single CSS-driven animation
+  useEffect(() => {
+    requestAnimationFrame(() => setProgress(100));
+    const timer = setTimeout(() => setShowPage(true), 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     if (showPage && allWatched) {
       setCelebrate(true);
-      const timer = setTimeout(() => {
-        setCelebrate(false);
-      }, 3000);
-
-      return () => {
-        clearTimeout(timer);
-      };
+      const t = setTimeout(() => setCelebrate(false), 3000);
+      return () => clearTimeout(t);
     }
   }, [showPage, allWatched]);
 
-  const handleWatched = (index: number): void => {
-    /*const updated = [...videos];
-    updated[index].isWatched = true;
-    setVideos(updated);
-    */
+  const handleWatched = (index: number) =>
     setVideos((prev) =>
       prev.map((v, i) => (i === index ? { ...v, isWatched: true } : v))
     );
-  };
+
   return (
     <div className="flex flex-col items-center justify-center mt-6 mb-10 w-11/12 mx-auto rounded-4xl border-8 border-gray-200 shadow-[0_0px_20px_rgba(0,0,0,0.6)]">
       {!showPage && (
-        // Loading animationanimation
         <div className="flex flex-col items-center justify-center h-64 gap-4 w-full">
           <div className="w-full h-1 bg-gray-200">
             <div
-              className="h-full bg-blue-500 transition-width"
+              className="h-full bg-blue-500 transition-all duration-1000 ease-linear"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -95,8 +80,8 @@ const Homework = () => {
           <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
         </div>
       )}
+
       {showPage && (
-        // Main content after loading
         <div>
           <h3 className="m-6 text-gray-500 font-medium text-xl">
             Don't forget to click{" "}
@@ -116,22 +101,25 @@ const Homework = () => {
         </div>
       )}
 
-      {celebrate && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center ">
-          {/* Confetti on top */}
+      {shouldRender && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gray-300">
+          {/* Confetti */}
           <div className="absolute top-10 flex items-center justify-center">
             <ConfettiExplosion
               width={window.innerWidth}
               height={window.innerHeight}
               particleCount={500}
-              duration={2200}
+              duration={2800}
               force={0.8}
               zIndex={200}
             />
           </div>
 
           {/* Modal */}
-          <div className="relative z-[300] bg-white rounded-xl shadow-lg py-10 px-20 flex flex-col items-center pointer-events-auto">
+          <div
+            className={`relative z-[300] bg-white rounded-xl shadow-lg py-10 px-20 flex flex-col items-center pointer-events-auto
+                         ${fadeClass}`}
+          >
             <h1 className="text-4xl font-semibold text-center mb-4">
               Good job! 🎉
             </h1>
