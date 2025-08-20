@@ -14,3 +14,24 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.gameBoard {
+  @apply flex gap-80 overflow-hidden items-center justify-center w-[60vw] h-[80vh] bg-sky-300 border-gray-300 border-4 rounded-4xl;
+}
+.deck {
+  @apply grid grid-cols-1 gap-3 p-4;
+}
+.wordCard {
+  @apply w-32 h-25 border-4 border-solid rounded-xl border-gray-300 text-center cursor-pointer select-none bg-blue-300 overflow-hidden hover:border-gray-400;
+}
+.wordCard img {
+  @apply w-full h-full object-cover;
+}
+.wordCard.selected {
+  @apply border-blue-500 bg-sky-100;
+}
+.wordCard.matched {
+  @apply bg-emerald-100 border-green-600 cursor-default;
+}
+.wordCard.wrong {
+  @apply bg-red-200 border-red-800;
+}

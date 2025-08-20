@@ -3,7 +3,8 @@ import WordCard from "../Components/WordCard";
 import { Card_Types, GameActionTypes } from "../Model"; // runtime values
 import type { Word, GameAction, WordGameState } from "../Model"; // types only
 import { randomNoRepeats } from "../Util/Util";
-import ConfettiExplosion from "react-confetti-explosion";
+import useFade from "../Util/useFade";
+import GameScore from "../Components/GameScore";
 
 const wordReducer = (
   state: WordGameState,
@@ -76,21 +77,10 @@ const Games = () => {
   };
 
   const [state, dispatch] = useReducer(wordReducer, initialState); // set default
-  //const [selectedText, setSelectedText] = useState<Word | null>(null);
-  //const [selectedImage, setSelectedImage] = useState<Word | null>(null);
-  //const [matched, setMatched] = useState<string[]>([]);
-  //const [wrong, setWrong] = useState<boolean>(false);
-
   const [randomizer] = useState(() => randomNoRepeats(words.length));
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
 
   const allMatched = words.length / 2 === state.matched.length;
-  /*
-  const handleCardClick = (word: Word, type: Card_Types) => {
-    if (type === Card_Types.TEXT)
-      setSelectedText((prev) => (prev?.text === word.text ? null : word));
-    else setSelectedImage((prev) => (prev?.text === word.text ? null : word));
-  };*/
 
   useEffect(() => {
     if (state.selectedText && state.selectedImage) {
@@ -124,88 +114,88 @@ const Games = () => {
   useEffect(() => {
     if (allMatched) {
       setShowOverlay(true);
-      const timer = setTimeout(() => {
-        setShowOverlay(false);
-      }, 3000);
-      return () => clearTimeout(timer);
+      // const timer = setTimeout(() => {
+      //   setShowOverlay(false);
+      // }, 3000);
+      // return () => clearTimeout(timer);
     }
   }, [allMatched]);
   //onClick={() => handleCardClick(words[randNum], Card_Types.TEXT)}
   //handleCardClick(words[randNum], Card_Types.IMAGE)
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center ">
       <h1>Games</h1>
       <div className="gameBoard">
-        <div className="deck">
-          {randomizer
-            .filter((randNum) => randNum < words.length / 2)
-            .map((randNum) => (
-              <WordCard
-                key={randNum}
-                word={words[randNum]}
-                type={Card_Types.TEXT}
-                onClick={() =>
-                  dispatch({
-                    type: GameActionTypes.SELECTED_TEXT,
-                    payload: words[randNum],
-                  })
-                }
-                isSelected={state.selectedText?.text === words[randNum].text}
-                isMatched={state.matched.includes(words[randNum].text)}
-                disabled={
-                  state.matched.includes(words[randNum].text) ||
-                  (state.selectedText != null &&
-                    state.selectedText.text !== words[randNum].text)
-                }
-                wrong={
-                  state.selectedText?.text === words[randNum].text &&
-                  state.wrong
-                }
-              />
-            ))}
-        </div>
-        <div className="deck">
-          {randomizer
-            .filter((randNum) => randNum >= words.length / 2)
-            .map((randNum) => (
-              <WordCard
-                key={randNum}
-                word={words[randNum]}
-                type={Card_Types.IMAGE}
-                onClick={() =>
-                  dispatch({
-                    type: GameActionTypes.SELECTED_IMAGE,
-                    payload: words[randNum],
-                  })
-                }
-                isSelected={state.selectedImage?.text === words[randNum].text}
-                isMatched={state.matched.includes(words[randNum].text)}
-                disabled={
-                  state.matched.includes(words[randNum].text) ||
-                  (state.selectedImage != null &&
-                    state.selectedImage.text !== words[randNum].text)
-                }
-                wrong={
-                  state.selectedImage?.text === words[randNum].text &&
-                  state.wrong
-                }
-              />
-            ))}
-        </div>
+        {!showOverlay ? (
+          <div className="flex gap-80 overflow-hidden items-center justify-center w-[60vw] h-[80vh]">
+            <GameScore />
+          </div>
+        ) : (
+          <>
+            <div className="deck">
+              {randomizer
+                .filter((randNum) => randNum < words.length / 2)
+                .map((randNum) => (
+                  <WordCard
+                    key={randNum}
+                    word={words[randNum]}
+                    type={Card_Types.TEXT}
+                    onClick={() =>
+                      dispatch({
+                        type: GameActionTypes.SELECTED_TEXT,
+                        payload: words[randNum],
+                      })
+                    }
+                    isSelected={
+                      state.selectedText?.text === words[randNum].text
+                    }
+                    isMatched={state.matched.includes(words[randNum].text)}
+                    disabled={
+                      state.matched.includes(words[randNum].text) ||
+                      (state.selectedText != null &&
+                        state.selectedText.text !== words[randNum].text)
+                    }
+                    wrong={
+                      state.selectedText?.text === words[randNum].text &&
+                      state.wrong
+                    }
+                  />
+                ))}
+            </div>
+            <div className="deck">
+              {randomizer
+                .filter((randNum) => randNum >= words.length / 2)
+                .map((randNum) => (
+                  <WordCard
+                    key={randNum}
+                    word={words[randNum]}
+                    type={Card_Types.IMAGE}
+                    onClick={() =>
+                      dispatch({
+                        type: GameActionTypes.SELECTED_IMAGE,
+                        payload: words[randNum],
+                      })
+                    }
+                    isSelected={
+                      state.selectedImage?.text === words[randNum].text
+                    }
+                    isMatched={state.matched.includes(words[randNum].text)}
+                    disabled={
+                      state.matched.includes(words[randNum].text) ||
+                      (state.selectedImage != null &&
+                        state.selectedImage.text !== words[randNum].text)
+                    }
+                    wrong={
+                      state.selectedImage?.text === words[randNum].text &&
+                      state.wrong
+                    }
+                  />
+                ))}
+            </div>
+          </>
+        )}
       </div>
-      {showOverlay && (
-        <div className=" overlay">
-          <ConfettiExplosion
-            particleCount={250}
-            duration={4500}
-            force={0.8}
-            width={1200}
-          />
-          <h1>Good job! 🎉</h1>
-          <img src="../images/medal.png" alt="Medal" style={{ width: "30%" }} />
-        </div>
-      )}
     </div>
   );
 };
