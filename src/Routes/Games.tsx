@@ -129,7 +129,7 @@ const Games = () => {
       <div className="gameBoard">
         {!showOverlay ? (
           <div className="flex gap-80 overflow-hidden items-center justify-center w-[60vw] h-[80vh]">
-            <GameScore score={90} />
+            <GameScore score={70} />
           </div>
         ) : (
           <>

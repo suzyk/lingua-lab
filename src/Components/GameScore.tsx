@@ -1,3 +1,4 @@
+import { RotateCcw } from "lucide-react";
 import ScoreStars from "./ScoreStars";
 
 const MAX_STARS = 3;
@@ -28,21 +29,29 @@ const GameScore = ({ score }: Props) => {
   const themeInfo = getThemeInfo(earnedStars);
 
   return (
-    <div className="grid grid-cols-1 gap-3 p-2">
+    <div className="grid grid-cols-1 gap-3 p-2 bg-gray-100">
       <h1
-        className={`text-4xl font-semibold text-center mb-4 ${themeInfo.color}`}
+        className={`text-5xl font-semibold text-center mb-4 ${themeInfo.color}`}
       >
         {themeInfo.message}
       </h1>
-      <div>
-        <ScoreStars stars={earnedStars} total={MAX_STARS} />
+      <ScoreStars stars={earnedStars} total={MAX_STARS} />
+      <div className="grid grid-cols-2 gap-20 justify-center items-center">
+        <button className="gameScore__button font-semibold">OK</button>
+        <button className="gameScore__button">
+          <RotateCcw
+            className="text-green-500 flex"
+            size={30}
+            strokeWidth={3}
+          />
+        </button>
       </div>
 
-      <img
+      {/* <img
         className="w-40 h-40 object-contain"
         src="../images/medal.png"
         alt="Medal"
-      />
+      /> */}
     </div>
   );
 };

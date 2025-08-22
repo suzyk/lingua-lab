@@ -1,6 +1,7 @@
 import React from "react";
 import { Card_Types } from "../Model";
 import type { Word } from "../Model";
+import { CircleCheck } from "lucide-react";
 
 interface Props {
   word: Word;
@@ -21,15 +22,18 @@ const WordCard = ({
   wrong,
 }: Props) => {
   return type === Card_Types.TEXT ? (
-    <button
-      className={`wordCard ${isSelected ? "selected" : ""} ${
-        isMatched ? "matched" : ""
-      } ${wrong ? "wrong" : ""}`}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {word.text}
-    </button>
+    <div className="relative">
+      <button
+        className={`wordCard ${isSelected ? "selected" : ""} ${
+          isMatched ? "matched" : ""
+        } ${wrong ? "wrong" : ""}`}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        {word.text}
+      </button>
+      <CircleCheck className="absolute bottom-0 float-right" />
+    </div>
   ) : (
     <button
       className={`wordCard ${isSelected ? "selected" : ""} ${
