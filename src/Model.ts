@@ -21,6 +21,7 @@ export enum GameActionTypes {
   MATCHED = "matched",
   WRONG = "wrong",
   RESET_SELECTION = "resetSelection",
+  SHOW_SCOREBOARD = "showScoreBoard",
 }
 
 export type GameAction =
@@ -28,7 +29,8 @@ export type GameAction =
   | { type: GameActionTypes.SELECTED_IMAGE; payload: Word }
   | { type: GameActionTypes.MATCHED; payload: string }
   | { type: GameActionTypes.WRONG; payload: boolean }
-  | { type: GameActionTypes.RESET_SELECTION };
+  | { type: GameActionTypes.RESET_SELECTION }
+  | { type: GameActionTypes.SHOW_SCOREBOARD; payload: boolean };
 
 export interface WordGameState {
   words: Word[];
@@ -37,4 +39,5 @@ export interface WordGameState {
   matched: string[];
   wrong: boolean;
   clickedCards: string[];
+  showScoreBoard: boolean;
 }

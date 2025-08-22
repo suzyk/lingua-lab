@@ -49,7 +49,13 @@ const wordReducer = (
         selectedText: null,
       };
     }
-
+    case GameActionTypes.SHOW_SCOREBOARD: {
+      console.log("show scoreboard");
+      return {
+        ...state,
+        showScoreBoard: action.payload,
+      };
+    }
     default:
       return state;
   }
@@ -74,11 +80,12 @@ const Games = () => {
     matched: [],
     wrong: false,
     clickedCards: [], //status: 'idle' | 'checking' | 'complete'
+    showScoreBoard: false,
   };
 
   const [state, dispatch] = useReducer(wordReducer, initialState); // set default
   const [randomizer] = useState(() => randomNoRepeats(words.length));
-  const [showOverlay, setShowOverlay] = useState<boolean>(false);
+  //const [showOverlay, setShowOverlay] = useState<boolean>(false);
 
   const allMatched = words.length / 2 === state.matched.length;
 
@@ -113,7 +120,8 @@ const Games = () => {
 
   useEffect(() => {
     if (allMatched) {
-      setShowOverlay(true);
+      dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: true });
+      //setShowOverlay(true);
       // const timer = setTimeout(() => {
       //   setShowOverlay(false);
       // }, 3000);
@@ -127,9 +135,9 @@ const Games = () => {
     <div className="flex flex-col justify-center items-center ">
       <h1>Games</h1>
       <div className="gameBoard">
-        {!showOverlay ? (
+        {state.showScoreBoard ? (
           <div className="flex gap-80 overflow-hidden items-center justify-center w-[60vw] h-[80vh]">
-            <GameScore score={70} />
+            <GameScore score={70} dispatch={dispatch} />
           </div>
         ) : (
           <>

@@ -1,10 +1,12 @@
 import { RotateCcw } from "lucide-react";
 import ScoreStars from "./ScoreStars";
+import { GameActionTypes, type GameAction } from "../Model";
 
 const MAX_STARS = 3;
 
 interface Props {
   score: number;
+  dispatch: React.Dispatch<GameAction>;
 }
 const getStars = (score: number, maxStars: number = MAX_STARS): number => {
   const percentage = score / 100; // turn score into 0–1
@@ -24,9 +26,18 @@ const getThemeInfo = (stars: number): { message: string; color: string } => {
   }
 };
 
-const GameScore = ({ score }: Props) => {
+const GameScore = ({ score, dispatch }: Props) => {
   const earnedStars = getStars(score, MAX_STARS);
   const themeInfo = getThemeInfo(earnedStars);
+
+  const handleOK = () => {
+    dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: false });
+  };
+
+  const handleRestart = () => {
+    dispatch({ type: GameActionTypes.RESET_SELECTION });
+    dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: false });
+  };
 
   return (
     <div className="grid grid-cols-1 gap-3 p-2 bg-gray-100">
@@ -37,13 +48,11 @@ const GameScore = ({ score }: Props) => {
       </h1>
       <ScoreStars stars={earnedStars} total={MAX_STARS} />
       <div className="grid grid-cols-2 gap-20 justify-center items-center">
-        <button className="gameScore__button font-semibold">OK</button>
-        <button className="gameScore__button">
-          <RotateCcw
-            className="text-green-500 flex"
-            size={30}
-            strokeWidth={3}
-          />
+        <button className="gameScore__button font-semibold" onClick={handleOK}>
+          OK
+        </button>
+        <button className="gameScore__button pl-1" onClick={handleRestart}>
+          <RotateCcw size={30} strokeWidth={3} />
         </button>
       </div>
 
