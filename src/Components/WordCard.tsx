@@ -21,29 +21,36 @@ const WordCard = ({
   disabled,
   wrong,
 }: Props) => {
-  return type === Card_Types.TEXT ? (
+  return (
     <div className="relative">
-      <button
-        className={`wordCard ${isSelected ? "selected" : ""} ${
-          isMatched ? "matched" : ""
-        } ${wrong ? "wrong" : ""}`}
-        onClick={onClick}
-        disabled={disabled}
-      >
-        {word.text}
-      </button>
-      <CircleCheck className="absolute bottom-0 float-right" />
+      {type === Card_Types.TEXT ? (
+        <button
+          className={`wordCard ${isSelected ? "selected" : ""} ${
+            isMatched ? "matched" : ""
+          } ${wrong ? "wrong" : ""}`}
+          onClick={onClick}
+          disabled={disabled}
+        >
+          {word.text}
+        </button>
+      ) : (
+        <button
+          className={`wordCard ${isSelected ? "selected" : ""} ${
+            isMatched ? "matched" : ""
+          } ${wrong ? "wrong" : ""}`}
+          onClick={onClick}
+          disabled={disabled}
+        >
+          <img src={word.image_url} alt={word.text} />
+        </button>
+      )}
+      {isMatched && (
+        <CircleCheck
+          className="absolute bottom-2 right-2 float-right text-emerald-500"
+          strokeWidth={3}
+        />
+      )}
     </div>
-  ) : (
-    <button
-      className={`wordCard ${isSelected ? "selected" : ""} ${
-        isMatched ? "matched" : ""
-      } ${wrong ? "wrong" : ""}`}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      <img src={word.image_url} alt={word.text} />
-    </button>
   );
 };
 

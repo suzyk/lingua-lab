@@ -15,7 +15,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 .gameBoard {
-  @apply flex gap-80 overflow-hidden items-center justify-center w-[60vw] h-[80vh] bg-sky-100 border-gray-300 border-4 rounded-4xl;
+  @apply flex  overflow-hidden items-center justify-between w-[60vw] h-[80vh] bg-sky-100 border-gray-300 border-4 rounded-4xl;
 }
 .deck {
   @apply grid grid-cols-1 gap-3 p-4;
