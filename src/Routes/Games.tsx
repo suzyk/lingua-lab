@@ -56,6 +56,20 @@ const wordReducer = (
         showScoreBoard: action.payload,
       };
     }
+    case GameActionTypes.RESET_GAME: {
+      console.log("reset the whole game");
+      // reset everything to the initial State and mix the cards again.
+      return {
+        ...state,
+        selectedText: null,
+        selectedImage: null,
+        matched: [],
+        wrong: false,
+        clickedCards: [], //status: 'idle' | 'checking' | 'complete'
+        showScoreBoard: false,
+        randomizer: randomNoRepeats(state.words.length),
+      };
+    }
     default:
       return state;
   }
@@ -81,10 +95,13 @@ const Games = () => {
     wrong: false,
     clickedCards: [], //status: 'idle' | 'checking' | 'complete'
     showScoreBoard: false,
+    randomizer: randomNoRepeats(words.length),
   };
 
   const [state, dispatch] = useReducer(wordReducer, initialState); // set default
-  const [randomizer] = useState(() => randomNoRepeats(words.length));
+  // ()=> fn() : lazy initialization
+  //() => fn() wrapper: it delays evaluation until React needs the initial state & runs once.
+  //const [randomizer] = useState(() => randomNoRepeats(words.length));
   //const [showOverlay, setShowOverlay] = useState<boolean>(false);
 
   const allMatched = words.length / 2 === state.matched.length;
@@ -137,12 +154,12 @@ const Games = () => {
       <div className="gameBoard">
         {state.showScoreBoard ? (
           <div className="flex gap-80 overflow-hidden items-center justify-center w-[60vw] h-[80vh]">
-            <GameScore score={70} dispatch={dispatch} />
+            <GameScore score={100} dispatch={dispatch} />
           </div>
         ) : (
           <>
             <div className="deck">
-              {randomizer
+              {state.randomizer
                 .filter((randNum) => randNum < words.length / 2)
                 .map((randNum) => (
                   <WordCard
@@ -172,7 +189,7 @@ const Games = () => {
                 ))}
             </div>
             <div className="deck">
-              {randomizer
+              {state.randomizer
                 .filter((randNum) => randNum >= words.length / 2)
                 .map((randNum) => (
                   <WordCard

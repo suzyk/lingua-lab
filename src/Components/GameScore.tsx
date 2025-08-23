@@ -30,37 +30,36 @@ const GameScore = ({ score, dispatch }: Props) => {
   const earnedStars = getStars(score, MAX_STARS);
   const themeInfo = getThemeInfo(earnedStars);
 
-  const handleOK = () => {
-    dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: false });
+  const handlePlayAgain = () => {
+    dispatch({ type: GameActionTypes.RESET_GAME });
+    //dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: false });
+    //dispatch({ type: GameActionTypes.RESET_SELECTION });
   };
 
-  const handleRestart = () => {
-    dispatch({ type: GameActionTypes.RESET_SELECTION });
-    dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: false });
-  };
+  // const handleRestart = () => {
+  //   dispatch({ type: GameActionTypes.RESET_SELECTION });
+  //   dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: false });
+  // };
 
   return (
-    <div className="grid grid-cols-1 gap-3 p-2 bg-gray-100">
+    <div className="grid grid-cols-1 gap-3 p-2">
       <h1
         className={`text-5xl font-semibold text-center mb-4 ${themeInfo.color}`}
       >
         {themeInfo.message}
       </h1>
       <ScoreStars stars={earnedStars} total={MAX_STARS} />
-      <div className="grid grid-cols-2 gap-20 justify-center items-center">
-        <button className="gameScore__button font-semibold" onClick={handleOK}>
-          OK
+      <div className="flex justify-center items-center">
+        <button
+          className="gameScore__button font-semibold"
+          onClick={handlePlayAgain}
+        >
+          Play Again
         </button>
-        <button className="gameScore__button pl-1" onClick={handleRestart}>
+        {/* <button className="gameScore__button pl-1" onClick={handleRestart}>
           <RotateCcw size={30} strokeWidth={3} />
-        </button>
+        </button> */}
       </div>
-
-      {/* <img
-        className="w-40 h-40 object-contain"
-        src="../images/medal.png"
-        alt="Medal"
-      /> */}
     </div>
   );
 };
