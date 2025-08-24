@@ -1,9 +1,8 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import WordCard from "../Components/WordCard";
 import { Card_Types, GameActionTypes } from "../Model"; // runtime values
 import type { Word, GameAction, WordGameState } from "../Model"; // types only
 import { randomNoRepeats } from "../Util/Util";
-import useFade from "../Util/useFade";
 import GameScore from "../Components/GameScore";
 
 const wordReducer = (
@@ -86,7 +85,6 @@ const Games = () => {
   // double the words for text cards and image cards.
   words.push.apply(words, words);
 
-  // const [words, setwords] = useState<Word[]>(vocab);
   const initialState: WordGameState = {
     words: words,
     selectedText: null,
@@ -118,7 +116,6 @@ const Games = () => {
       } else {
         // add red color
         console.log("Wrong!");
-        //setWrong(true);
         dispatch({ type: GameActionTypes.WRONG, payload: true });
       }
 

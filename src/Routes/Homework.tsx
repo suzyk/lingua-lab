@@ -56,7 +56,7 @@ const Homework = () => {
   useEffect(() => {
     if (showPage && allWatched) {
       setCelebrate(true);
-      const t = setTimeout(() => setCelebrate(false), 3000);
+      const t = setTimeout(() => setCelebrate(false), 1000);
       return () => clearTimeout(t);
     }
   }, [showPage, allWatched]);
