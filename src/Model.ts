@@ -10,8 +10,9 @@ export interface Word {
 }
 
 export enum Card_Types {
-  TEXT,
-  IMAGE,
+  TEXT = "TEXT",
+  IMAGE = "IMAGE",
+  COMPLETE = "COMPLETE",
 }
 
 // selecteText, selectedImage, cardMatched, matchWrong

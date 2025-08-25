@@ -5,6 +5,9 @@ import Games from "./Routes/Games";
 import Homework from "./Routes/Homework";
 import Contact from "./Routes/Contact";
 import Navbar from "./Components/Navbar";
+import VocabLearning from "./Routes/VocabLearning";
+import Quiz from "./Routes/Quiz";
+import WordGame from "./Routes/WordGame";
 
 function App() {
   return (
@@ -15,6 +18,9 @@ function App() {
         <Route path="/games" element={<Games />}></Route>
         <Route path="/homework" element={<Homework />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/word-game" element={<WordGame />}></Route>
+        <Route path="/vocab-learn" element={<VocabLearning />}></Route>
+        <Route path="/quiz" element={<Quiz />}></Route>
       </Routes>
     </Router>
   );

@@ -6,7 +6,7 @@ const Contact = () => {
       <div className="flex items-center gap-8 bg-amber-50 m-10 w-[80vw] h-80 rounded-2xl shadow-md">
         {/* Left side: text and button */}
         <div className="flex flex-col items-start gap-4 pl-25">
-          <h1 className="text-blue-800 font-bold text-4xl">Contact</h1>
+          <h1 className="header">Contact</h1>
           <h3 className="text-lg text-gray-600 font-medium max-w-md">
             Check out the program and DM me for any questions!
           </h3>
