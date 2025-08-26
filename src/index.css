@@ -15,13 +15,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 .gameBoard {
-  @apply flex  overflow-hidden items-center justify-between w-[60vw] h-[80vh] bg-sky-100 border-gray-300 border-4 rounded-4xl;
+  @apply flex  overflow-hidden items-center justify-between w-[80vw] h-[80vh]  border-gray-300 border-4 rounded-4xl bg-gradient-to-b from-sky-200 via-sky-100 to-green-100;
 }
 .deck {
   @apply grid grid-cols-1 gap-3 p-4;
 }
 .wordCard {
-  @apply w-32 h-25 border-4 border-solid rounded-xl border-gray-300 text-center cursor-pointer select-none bg-blue-300 overflow-hidden hover:border-gray-400;
+  @apply w-32 h-25 border-4 border-solid rounded-xl border-gray-200 shadow-lg text-center text-gray-600 text-2xl font-semibold cursor-pointer select-none bg-amber-200/70 overflow-hidden hover:border-gray-400;
 }
 .wordCard__complete {
   @apply flex flex-col w-45 h-55 border-4 border-solid rounded-xl border-gray-300 text-center cursor-pointer select-none bg-white overflow-hidden hover:border-gray-400;
@@ -33,7 +33,7 @@
   @apply w-45 h-40 object-cover;
 }
 .wordCard__complete label {
-  @apply mt-3 w-full text-center text-gray-600 font-semibold;
+  @apply mt-3 w-full text-center text-gray-600 text-2xl font-semibold;
 }
 .wordCard.selected {
   @apply border-blue-500 bg-sky-100;

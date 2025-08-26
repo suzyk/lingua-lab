@@ -10,15 +10,21 @@ const Navbar = () => {
           </h2>
         </div>
         <ul className="flex items-center gap-10 text-gray-500 text-base font-semibold ">
-          <li className="p-2 pl-4 pr-4  rounded-lg hover:bg-yellow-100">
-            <Link to={"/homework"}>Homework</Link>
-          </li>
-          <li className="p-2  pl-4 pr-4  rounded-lg hover:bg-yellow-100">
-            <Link to={"/games"}>Games</Link>
-          </li>
-          <li className="p-2  pl-4 pr-4  rounded-lg hover:bg-yellow-100">
-            <Link to={"/contact"}>Contact</Link>
-          </li>
+          <Link to={"/homework"}>
+            <li className="p-2 pl-4 pr-4  rounded-lg hover:bg-yellow-100">
+              Homework
+            </li>
+          </Link>
+          <Link to={"/games"}>
+            <li className="p-2  pl-4 pr-4  rounded-lg hover:bg-yellow-100">
+              Games
+            </li>
+          </Link>
+          <Link to={"/contact"}>
+            <li className="p-2  pl-4 pr-4  rounded-lg hover:bg-yellow-100">
+              Contact
+            </li>
+          </Link>
         </ul>
       </div>
     </nav>
