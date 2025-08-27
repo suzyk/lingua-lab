@@ -32,7 +32,10 @@ const VocabLearning = () => {
   return (
     <div className="flex flex-col justify-center items-center ">
       <h1 className="header">Vocab Learning</h1>
-      <div className="justify-center align-items overflow-hidden items-center  w-[80vw] h-[80vh] bg-sky-100 border-gray-300 border-4 rounded-4xl">
+      {/* Colored Game board */}
+      {/* <div className="justify-center align-items overflow-hidden items-center  w-[80vw] h-[80vh] bg-gradient-to-b from-sky-200 via-sky-100 to-green-100 border-gray-300 border-4 rounded-4xl">
+       */}
+      <div className="gameBoard">
         <h2 className="py-4 text-3xl text-gray-500 font-bold text-center">
           {words[0].theme}
         </h2>
@@ -48,6 +51,7 @@ const VocabLearning = () => {
             </div>
           ))}
         </div>
+        {/* Pagination Control */}
         <div className="flex flex-row items-center justify-center">
           <ChevronLeft
             strokeWidth={3}

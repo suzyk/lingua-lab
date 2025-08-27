@@ -15,7 +15,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 .gameBoard {
-  @apply flex  overflow-hidden items-center justify-between w-[80vw] h-[80vh]  border-gray-300 border-4 rounded-4xl bg-gradient-to-b from-sky-200 via-sky-100 to-green-100;
+  @apply w-[80vw] h-[80vh] items-center justify-center border-gray-300 border-4 rounded-4xl bg-gradient-to-b from-sky-200 via-sky-100 to-green-100;
+}
+.gameMode {
+  @apply flex overflow-hidden items-center justify-between;
 }
 .deck {
   @apply grid grid-cols-1 gap-3 p-4;
@@ -33,7 +36,7 @@
   @apply w-45 h-40 object-cover;
 }
 .wordCard__complete label {
-  @apply mt-3 w-full text-center text-gray-600 text-2xl font-semibold;
+  @apply mt-3 w-full text-center cursor-pointer text-gray-600 text-2xl font-semibold;
 }
 .wordCard.selected {
   @apply border-blue-500 bg-sky-100;

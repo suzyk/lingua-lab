@@ -143,9 +143,9 @@ const WordGame = () => {
   return (
     <div className="flex flex-col justify-center items-center ">
       <h1 className="header">Word Games</h1>
-      <div className="gameBoard">
+      <div className="gameBoard gameMode">
         {state.showScoreBoard ? (
-          <div className="flex gap-80 overflow-hidden items-center justify-center w-[60vw] h-[80vh]">
+          <div className="flex items-center justify-center w-full h-full">
             <GameScore score={100} dispatch={dispatch} />
           </div>
         ) : (
