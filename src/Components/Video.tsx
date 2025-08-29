@@ -5,6 +5,7 @@ interface Props {
   video: VideoHomework;
   handleWatched: () => void;
 }
+
 const Video = ({ video, handleWatched }: Props) => {
   const [status, setStatus] = useState<"idle" | "loading" | "complete">(
     video.isWatched ? "complete" : "idle"
@@ -17,21 +18,23 @@ const Video = ({ video, handleWatched }: Props) => {
       setStatus("complete");
     }, 1000);
   };
-  //items-start aligns all children to the top, so the video won’t be cut off.
-  return (
-    <div className="flex flex-row items-center ">
-      <iframe
-        className="bg-gray-200"
-        width="560"
-        height="315"
-        src={video.url}
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      ></iframe>
 
-      <div className="flex justify-center items-center w-40">
+  return (
+    <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4 items-center">
+      {/* Video */}
+      <div className="w-full sm:flex-1 aspect-video">
+        <iframe
+          className="w-full h-full rounded-md"
+          src={video.url}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        ></iframe>
+      </div>
+
+      {/* Button / Status */}
+      <div className="flex justify-center items-center mt-2 sm:mt-0">
         {status === "idle" && (
           <button
             onClick={handleClick}
@@ -41,11 +44,9 @@ const Video = ({ video, handleWatched }: Props) => {
             {video.isWatched ? "Completed" : "Done"}
           </button>
         )}
-
         {status === "loading" && (
           <div className="w-6 h-6 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
         )}
-
         {status === "complete" && (
           <span className="font-semibold bg-gray-100 p-2 rounded-md">
             ✅ Complete

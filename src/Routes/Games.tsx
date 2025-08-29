@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const Games = () => {
   return (
-    <div className="flex flex-col flex-1 bg-white items-center justify-center">
+    <div className="flex flex-col flex-1 p-6 bg-white items-center justify-center gap-4 sm:gap-6">
       <h1 className="header">Games</h1>
       <Link to={"/vocab-learn"} className="game_link_buttons">
         Vocab Learning
@@ -10,9 +10,9 @@ const Games = () => {
       <Link to={"/word-game"} className="game_link_buttons">
         Word Game
       </Link>
-      <Link to={"/quiz"} className="game_link_buttons">
+      {/* <Link to={"/quiz"} className="game_link_buttons">
         Quiz
-      </Link>
+      </Link> */}
     </div>
   );
 };

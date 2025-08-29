@@ -2,16 +2,19 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <header className="flex justify-between items-center px-8 py-4">
-      <h1 className="text-3xl font-extrabold text-amber-500 tracking-tight">
+    <header className="flex flex-col sm:flex-row justify-between items-center px-4 sm:px-8 py-4 gap-4 sm:gap-0">
+      {/* Logo */}
+      <h1 className="text-2xl sm:text-3xl font-extrabold text-amber-500 tracking-tight">
         <Link to={"/"}>LinguaLab ☀️</Link>
       </h1>
+
+      {/* Nav Links */}
       <nav>
-        <ul className="flex gap-8 text-gray-700 font-medium">
+        <ul className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-base sm:text-lg text-gray-700 font-medium text-center">
           <li>
             <Link
               to="/homework"
-              className="hover:text-amber-500 transition-colors  px-2 py-1"
+              className="hover:text-amber-500 transition-colors px-2 py-1"
             >
               Homework
             </Link>

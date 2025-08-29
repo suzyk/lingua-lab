@@ -7,7 +7,6 @@ import useFade from "../Util/useFade";
 const HOMEWORK_DATE = "2025-08-28";
 
 const Homework = () => {
-  // Read stored homework info from localStorage
   const stored = JSON.parse(
     localStorage.getItem(`homework-${HOMEWORK_DATE}`) || "{}"
   );
@@ -46,11 +45,11 @@ const Homework = () => {
     duration: 1000,
   });
 
-  // Save videos and celebrate flag to localStorage whenever videos change
+  // Save videos + celebrate flag in localStorage
   useEffect(() => {
     const homeworkInfo = {
       videos,
-      celebrated: stored.celebrated || false, // keep celebrated status
+      celebrated: stored.celebrated || false,
     };
     localStorage.setItem(
       `homework-${HOMEWORK_DATE}`,
@@ -58,26 +57,26 @@ const Homework = () => {
     );
   }, [videos]);
 
-  // Progress bar
+  // Progress bar animation
   useEffect(() => {
     requestAnimationFrame(() => setProgress(100));
     const timer = setTimeout(() => setShowPage(true), 1000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Celebrate modal logic: only if all watched AND not celebrated yet
+  // Celebrate effect once
   useEffect(() => {
-    if (showPage && allWatched && !stored.celebrated) {
+    const homeworkInfo = JSON.parse(
+      localStorage.getItem(`homework-${HOMEWORK_DATE}`) || "{}"
+    );
+
+    if (showPage && allWatched && !homeworkInfo.celebrated) {
       setCelebrate(true);
 
-      // mark as celebrated in storage immediately
-      const homeworkInfo = {
-        videos,
-        celebrated: true,
-      };
+      // Update localStorage to mark as celebrated
       localStorage.setItem(
         `homework-${HOMEWORK_DATE}`,
-        JSON.stringify(homeworkInfo)
+        JSON.stringify({ ...homeworkInfo, celebrated: true })
       );
 
       const t = setTimeout(() => setCelebrate(false), 1000);
@@ -91,9 +90,9 @@ const Homework = () => {
     );
 
   return (
-    <div className="flex flex-col flex-1 bg-white items-center justify-center mt-6 mb-10 w-11/12 mx-auto rounded-4xl border-8 border-gray-200 shadow-[0_0px_20px_rgba(0,0,0,0.6)]">
+    <div className="flex flex-col flex-1 bg-white items-center justify-center w-full py-6 px-4 sm:px-6 md:px-8">
       {!showPage && (
-        <div className="flex flex-col items-center justify-center h-64 gap-4 w-full">
+        <div className="flex flex-col items-center  h-64 gap-4 w-full">
           <div className="w-full h-1 bg-gray-200">
             <div
               className="h-full bg-blue-500 transition-all duration-1000 ease-linear"
@@ -106,13 +105,13 @@ const Homework = () => {
       )}
 
       {showPage && (
-        <div>
-          <h3 className="m-6 text-gray-500 font-medium text-xl">
+        <div className="w-full max-w-2xl flex flex-col gap-6">
+          <h3 className="text-gray-500 font-medium text-lg sm:text-xl text-center">
             Don't forget to click{" "}
             <strong className="text-blue-600 underline">'Done'</strong> button
             to unlock your medal! 🏅
           </h3>
-          <ul className="flex flex-col gap-10 pb-10">
+          <ul className="flex flex-col gap-6">
             {videos.map((video, index) => (
               <li key={index}>
                 <Video
@@ -139,14 +138,13 @@ const Homework = () => {
           </div>
 
           <div
-            className={`relative z-[300] bg-white rounded-xl shadow-lg py-10 px-20 flex flex-col items-center pointer-events-auto
-                         ${fadeClass}`}
+            className={`relative z-[300] bg-white rounded-xl shadow-lg py-10 px-6 sm:px-10 flex flex-col items-center pointer-events-auto ${fadeClass}`}
           >
-            <h1 className="text-4xl font-semibold text-center mb-4">
+            <h1 className="text-3xl sm:text-4xl font-semibold text-center mb-4">
               Good job! 🎉
             </h1>
             <img
-              className="w-40 h-40 object-contain"
+              className="w-32 sm:w-40 h-32 sm:h-40 object-contain"
               src="../images/medal.png"
               alt="Medal"
             />
