@@ -4,12 +4,18 @@ import type { VideoHomework } from "../Model";
 import ConfettiExplosion from "react-confetti-explosion";
 import useFade from "../Util/useFade";
 
+const HOMEWORK_DATE = "2025-08-28";
+
 const Homework = () => {
-  const storedVideos = JSON.parse(localStorage.getItem("videos") || "[]");
+  // Read stored homework info from localStorage
+  const stored = JSON.parse(
+    localStorage.getItem(`homework-${HOMEWORK_DATE}`) || "{}"
+  );
 
   const [videos, setVideos] = useState<VideoHomework[]>(
-    storedVideos.length === 0
-      ? [
+    stored.videos?.length
+      ? stored.videos
+      : [
           {
             url: "https://www.youtube.com/embed/eBVqcTEC3zQ?si=sxI7BLVOdl9yYXa5",
             isWatched: false,
@@ -27,7 +33,6 @@ const Homework = () => {
             isWatched: false,
           },
         ]
-      : storedVideos
   );
 
   const allWatched = videos.every((v) => v.isWatched);
@@ -35,27 +40,46 @@ const Homework = () => {
   const [showPage, setShowPage] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
 
-  // Fade controller for the celebrate modal (1s)
   const { shouldRender, fadeClass } = useFade(celebrate, {
     fadeIn: false,
     fadeOut: true,
     duration: 1000,
   });
 
+  // Save videos and celebrate flag to localStorage whenever videos change
   useEffect(() => {
-    localStorage.setItem("videos", JSON.stringify(videos));
+    const homeworkInfo = {
+      videos,
+      celebrated: stored.celebrated || false, // keep celebrated status
+    };
+    localStorage.setItem(
+      `homework-${HOMEWORK_DATE}`,
+      JSON.stringify(homeworkInfo)
+    );
   }, [videos]);
 
-  // Progress bar: single CSS-driven animation
+  // Progress bar
   useEffect(() => {
     requestAnimationFrame(() => setProgress(100));
     const timer = setTimeout(() => setShowPage(true), 1000);
     return () => clearTimeout(timer);
   }, []);
 
+  // Celebrate modal logic: only if all watched AND not celebrated yet
   useEffect(() => {
-    if (showPage && allWatched) {
+    if (showPage && allWatched && !stored.celebrated) {
       setCelebrate(true);
+
+      // mark as celebrated in storage immediately
+      const homeworkInfo = {
+        videos,
+        celebrated: true,
+      };
+      localStorage.setItem(
+        `homework-${HOMEWORK_DATE}`,
+        JSON.stringify(homeworkInfo)
+      );
+
       const t = setTimeout(() => setCelebrate(false), 1000);
       return () => clearTimeout(t);
     }
@@ -67,7 +91,7 @@ const Homework = () => {
     );
 
   return (
-    <div className="flex flex-col items-center justify-center mt-6 mb-10 w-11/12 mx-auto rounded-4xl border-8 border-gray-200 shadow-[0_0px_20px_rgba(0,0,0,0.6)]">
+    <div className="flex flex-col flex-1 bg-white items-center justify-center mt-6 mb-10 w-11/12 mx-auto rounded-4xl border-8 border-gray-200 shadow-[0_0px_20px_rgba(0,0,0,0.6)]">
       {!showPage && (
         <div className="flex flex-col items-center justify-center h-64 gap-4 w-full">
           <div className="w-full h-1 bg-gray-200">
@@ -103,7 +127,6 @@ const Homework = () => {
 
       {shouldRender && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gray-300">
-          {/* Confetti */}
           <div className="absolute top-10 flex items-center justify-center">
             <ConfettiExplosion
               width={window.innerWidth}
@@ -115,7 +138,6 @@ const Homework = () => {
             />
           </div>
 
-          {/* Modal */}
           <div
             className={`relative z-[300] bg-white rounded-xl shadow-lg py-10 px-20 flex flex-col items-center pointer-events-auto
                          ${fadeClass}`}

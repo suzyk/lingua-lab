@@ -30,7 +30,7 @@ const VocabLearning = () => {
     console.log("READ THE WORD " + word.text);
   };
   return (
-    <div className="flex flex-col justify-center items-center ">
+    <div className="flex flex-col flex-1 bg-white justify-center items-center ">
       <h1 className="header">Vocab Learning</h1>
       {/* Colored Game board */}
       {/* <div className="justify-center align-items overflow-hidden items-center  w-[80vw] h-[80vh] bg-gradient-to-b from-sky-200 via-sky-100 to-green-100 border-gray-300 border-4 rounded-4xl">
