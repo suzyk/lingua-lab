@@ -144,12 +144,14 @@ const WordGame = () => {
     <div className="flex flex-col flex-1 py-6 px-0 sm:px-6 bg-white justify-center items-center ">
       <h1 className="header">Word Games</h1>
       <div className="gameBoard">
-        {state.showScoreBoard ? (
-          <div className="flex items-center justify-center w-full h-full">
-            <GameScore score={100} dispatch={dispatch} />
-          </div>
-        ) : (
+        {
           <>
+            {/** Scoreboard overlay */}
+            {state.showScoreBoard && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 w-full h-full">
+                <GameScore score={100} dispatch={dispatch} />
+              </div>
+            )}
             <div className="deck">
               {state.randomizer
                 .filter((randNum) => randNum < words.length / 2)
@@ -211,7 +213,7 @@ const WordGame = () => {
                 ))}
             </div>
           </>
-        )}
+        }
       </div>
     </div>
   );
