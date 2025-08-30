@@ -141,9 +141,9 @@ const WordGame = () => {
   //handleCardClick(words[randNum], Card_Types.IMAGE)
 
   return (
-    <div className="flex flex-col flex-1 bg-white justify-center items-center ">
+    <div className="flex flex-col flex-1 py-6 px-0 sm:px-6 bg-white justify-center items-center ">
       <h1 className="header">Word Games</h1>
-      <div className="gameBoard gameMode">
+      <div className="gameBoard">
         {state.showScoreBoard ? (
           <div className="flex items-center justify-center w-full h-full">
             <GameScore score={100} dispatch={dispatch} />

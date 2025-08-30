@@ -30,17 +30,20 @@ const VocabLearning = () => {
     console.log("READ THE WORD " + word.text);
   };
   return (
-    <div className="flex flex-col flex-1 bg-white justify-center items-center ">
+    <div className="flex flex-col flex-1 py-6 px-0 sm:px-6 bg-white justify-center items-center">
       <h1 className="header">Vocab Learning</h1>
+
       {/* Colored Game board */}
       {/* <div className="justify-center align-items overflow-hidden items-center  w-[80vw] h-[80vh] bg-gradient-to-b from-sky-200 via-sky-100 to-green-100 border-gray-300 border-4 rounded-4xl">
        */}
-      <div className="gameBoard">
-        <h2 className="py-4 text-3xl text-gray-500 font-bold text-center">
+      <div className="learnBoard ">
+        <h2 className="py-4 text-2xl sm:text-3xl text-gray-500 font-bold text-center">
           {words[0].theme}
         </h2>
-        <div className="w-full h-[55vh] px-3.5 grid gap-2 grid-cols-[repeat(auto-fit,minmax(150px,1fr))]">
-          {/* <h1>Theme (animal)</h1> */}
+        {/* <div className="w-full h-[55vh] px-3.5 grid gap-2 grid-cols-[repeat(auto-fit,minmax(150px,1fr))]"> */}
+        {/** Display Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {/* <div className="flex flex-wrap justify-start content-start w-[347] h-[576] gap-4"> */}
           {currentRandoms.map((randNum) => (
             <div className="flex items-center justify-center">
               <WordCard
@@ -52,7 +55,7 @@ const VocabLearning = () => {
           ))}
         </div>
         {/* Pagination Control */}
-        <div className="flex flex-row items-center justify-center">
+        <div className="flex flex-row my-6 items-center justify-center">
           <ChevronLeft
             strokeWidth={3}
             onClick={prevPage}

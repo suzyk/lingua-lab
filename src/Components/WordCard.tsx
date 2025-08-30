@@ -22,48 +22,61 @@ const WordCard = ({
   wrong = false,
 }: Props) => {
   return (
-    <div className="relative">
+    <>
       {type === Card_Types.TEXT && (
-        <button
-          className={`wordCard ${isSelected ? "selected" : ""} ${
-            isMatched ? "matched" : ""
-          } ${wrong ? "wrong" : ""}`}
-          onClick={onClick}
-          disabled={disabled}
-        >
-          {word.text}
-        </button>
+        <div className="relative w-35 h-25 sm:w-45 sm:h-35">
+          <button
+            className={`wordCard ${isSelected ? "selected" : ""} ${
+              isMatched ? "matched" : ""
+            } ${wrong ? "wrong" : ""}`}
+            onClick={onClick}
+            disabled={disabled}
+          >
+            {word.text}
+          </button>
+          {isMatched && (
+            <CircleCheck
+              className="absolute bottom-2 right-2 text-emerald-500"
+              strokeWidth={3}
+            />
+          )}
+        </div>
       )}
       {type === Card_Types.IMAGE && (
-        <button
-          className={`wordCard ${isSelected ? "selected" : ""} ${
-            isMatched ? "matched" : ""
-          } ${wrong ? "wrong" : ""}`}
-          onClick={onClick}
-          disabled={disabled}
-        >
-          <img src={word.image_url} alt={word.text} />
-        </button>
+        <div className="relative w-35 h-25 sm:w-45 sm:h-35">
+          <button
+            className={`wordCard ${isSelected ? "selected" : ""} ${
+              isMatched ? "matched" : ""
+            } ${wrong ? "wrong" : ""}`}
+            onClick={onClick}
+            disabled={disabled}
+          >
+            <img src={word.image_url} alt={word.text} />
+          </button>
+          {isMatched && (
+            <CircleCheck
+              className="absolute bottom-2 right-2 text-emerald-500"
+              strokeWidth={3}
+            />
+          )}
+        </div>
       )}
-      {isMatched && (
-        <CircleCheck
-          className="absolute bottom-2 right-2 float-right text-emerald-500"
-          strokeWidth={3}
-        />
-      )}
+
       {type === Card_Types.COMPLETE && (
-        <button
-          className={`wordCard__complete ${isSelected ? "selected" : ""} ${
-            isMatched ? "matched" : ""
-          } ${wrong ? "wrong" : ""}`}
-          onClick={onClick}
-          disabled={disabled}
-        >
-          <img src={word.image_url} alt={word.text} />
-          <label>{word.text}</label>
-        </button>
+        <div className="w-35 h-45 flex items-center justify-center">
+          <button
+            className={`wordCard__complete ${isSelected ? "selected" : ""} ${
+              isMatched ? "matched" : ""
+            } ${wrong ? "wrong" : ""}`}
+            onClick={onClick}
+            disabled={disabled}
+          >
+            <img src={word.image_url} alt={word.text} />
+            <label>{word.text}</label>
+          </button>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
