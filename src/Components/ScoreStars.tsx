@@ -6,7 +6,6 @@ interface Props {
 }
 
 const ScoreStars = ({ stars, total }: Props) => {
-  console.log(stars);
   return (
     <div className="flex gap-3 justify-center">
       {Array.from({ length: total }).map((_, i) => (

@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router";
 
 const VocabLearning = () => {
-  const words: Word[] = targetWords;
+  const words: Word[] = [...targetWords];
   const [randomizer] = useState(() => randomNoRepeats(words.length));
   const [page, setPage] = useState(0);
   const itemPerWindow = 4;
@@ -42,17 +42,23 @@ const VocabLearning = () => {
         </h2>
         {/* <div className="w-full h-[55vh] px-3.5 grid gap-2 grid-cols-[repeat(auto-fit,minmax(150px,1fr))]"> */}
         {/** Display Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 auto-fit">
           {/* <div className="flex flex-wrap justify-start content-start w-[347] h-[576] gap-4"> */}
           {currentRandoms.map((randNum) => (
             <div className="flex items-center justify-center">
               <WordCard
+                key={randNum}
                 word={words[randNum]}
                 type={Card_Types.COMPLETE}
                 onClick={() => handleClick(words[randNum])}
               />
             </div>
           ))}
+          {/** Create extra ghost cards for consistent layout */}
+          {currentRandoms.length < itemPerWindow &&
+            Array.from({
+              length: itemPerWindow - currentRandoms.length,
+            }).map((_, i) => <div key={i} className="w-35 h-45 opacity-0" />)}
         </div>
         {/* Pagination Control */}
         <div className="flex flex-row my-6 items-center justify-center">

@@ -6,4 +6,6 @@ export const targetWords: Word[] = [
   { theme: "animal", text: "fish", image_url: "../images/fish.png" },
   { theme: "animal", text: "bird", image_url: "../images/bird.png" },
   { theme: "animal", text: "tree", image_url: "../images/tree.png" },
+  { theme: "animal", text: "extra tree", image_url: "../images/tree.png" },
+  { theme: "animal", text: "another tree", image_url: "../images/tree.png" },
 ];
