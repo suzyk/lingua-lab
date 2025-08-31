@@ -1,69 +1,60 @@
-# React + TypeScript + Vite
+# LinguaLab 🎮📚
+**Interactive English Learning Games**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+LinguaLab is a student portal for homework and collection of mini-games designed to make English learning engaging, fun, and accessible.  
+I built this project as part of my portfolio to showcase my skills in **React, TypeScript, and modern frontend development** while also solving a real-world problem I care about—making language practice more interactive for kids and learners.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔗 Live Demo
+👉 [Coming soon – deployed link will go here!]
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Features
+- 📼 **Homework Portal** - Watcht the assigned video homework and earn a medal.
+- 🎲 **Interactive Games** – Simple, replayable mini-games that reinforce English vocabulary and concepts.  
+- ⚡ **Fast Development Setup** – Powered by **Vite** for instant hot reloads and optimized builds.  
+- 🎨 **Modern UI** – Styled with **TailwindCSS**, ensuring a clean, mobile-friendly layout.  
+- 🛠 **Type-Safe Codebase** – Written entirely in **TypeScript** for better maintainability and scalability.  
+- 🌍 **Extensible Design** – Easy to add new games or extend existing ones thanks to modular components and shared context.  
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 🎮 How the Games Work
+Each game is designed to be straightforward and intuitive, so learners can start playing immediately:  
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Flashcard Game** – Page through cards and click them to hear the sound of the vocab. 
+- **Matching Game** – Match pairs of images and words.   
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+React hooks manage the state, progress, and scoring so the games remain **dynamic and replayable**.  
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧩 Tech Stack
+- **React** – Functional components & hooks  
+- **TypeScript** – Type safety and cleaner development  
+- **TailwindCSS** – Utility-first responsive styling  
+- **Vite** – Fast bundler & dev server  
+
+---
+
+## ⚙️ Core React Concepts Used
+This project demonstrates modern React practices:  
+
+- **`useState`** – track score, game progress, and user choices  
+- **`useEffect`** – timers, reset logic, and side effects (e.g., animations)  
+- **`useContext`** – share global game state and themes across components  
+- **Custom hooks** – for reusable logic such as shuffling and resets  
+- **Component composition** – games are modular and self-contained  
+
+---
+
+## 🌱 Future Improvements
+- Add new game types (listening, typing challenges, sentence building)  
+- Multi-language support  
+- User accounts and personalized progress tracking  
+
+---
+
+💡 *This project is part of my coding portfolio. It reflects my ability to design, build, and structure a modern web app using industry-standard tools and practices.*  
