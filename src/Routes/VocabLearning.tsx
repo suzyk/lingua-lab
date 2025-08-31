@@ -59,9 +59,11 @@ const VocabLearning = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 auto-fit">
           {/* <div className="flex flex-wrap justify-start content-start w-[347] h-[576] gap-4"> */}
           {currentRandoms.map((randNum, i) => (
-            <div className="flex items-center justify-center">
+            <div
+              key={`card-${randNum}`}
+              className="flex items-center justify-center"
+            >
               <WordCard
-                key={i}
                 word={words[randNum]}
                 type={Card_Types.COMPLETE}
                 onClick={() => handleClick(words[randNum])}
@@ -72,7 +74,9 @@ const VocabLearning = () => {
           {currentRandoms.length < itemPerWindow &&
             Array.from({
               length: itemPerWindow - currentRandoms.length,
-            }).map((_, i) => <div key={i} className="w-35 h-45 opacity-0" />)}
+            }).map((_, i) => (
+              <div key={`ghost-${i}`} className="w-35 h-45 opacity-0" />
+            ))}
         </div>
         {/* Pagination Control */}
         <div className="flex flex-row my-6 items-center justify-center">

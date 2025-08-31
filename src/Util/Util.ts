@@ -1,4 +1,4 @@
-export const randomNoRepeats = (max: number, maxCard?: number): number[] => {
+export const randomNoRepeats = (max: number): number[] => {
   // keys returns array iterator (index)
   // Array(length) -> returns an emtpy array of given size
   let nums = Array.from(Array(max).keys()); // returns array with 0-max number

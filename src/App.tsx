@@ -14,7 +14,7 @@ function App() {
   return (
     <AudioProvider>
       <div className="min-h-screen bg-gradient-to-b from-yellow-50 via-white to-amber-50 flex flex-col">
-        <Router basename={import.meta.env.BASE_URL}>
+        <Router basename={import.meta.env.VITE_BASE_URL}>
           {/** In order for Links to work, components should be inside Router */}
           <Navbar />
           <Routes>
