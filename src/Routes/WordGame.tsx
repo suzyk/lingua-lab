@@ -31,7 +31,7 @@ function initWordGame(): WordGameState {
     wrong: false,
     clickedCards: [],
     showScoreBoard: false,
-    randomizer: randomNoRepeats(words.length, MAX_CARD),
+    randomizer: randomNoRepeats(words.length),
   };
 }
 

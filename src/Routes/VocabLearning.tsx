@@ -58,7 +58,7 @@ const VocabLearning = () => {
         {/** Display Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 auto-fit">
           {/* <div className="flex flex-wrap justify-start content-start w-[347] h-[576] gap-4"> */}
-          {currentRandoms.map((randNum, i) => (
+          {currentRandoms.map((randNum) => (
             <div
               key={`card-${randNum}`}
               className="flex items-center justify-center"

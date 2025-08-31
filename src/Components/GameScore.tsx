@@ -34,7 +34,7 @@ const GameScore = ({ score, dispatch }: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-3 p-2 bg-sky-100 rounded-4xl p-10 border-8 border-gray-400">
+    <div className="grid grid-cols-1 gap-3 p-2 bg-sky-100 rounded-4xl border-8 border-gray-400">
       <h1
         className={`text-4xl sm:text-5xl font-semibold text-center mb-4 ${themeInfo.color}`}
       >
