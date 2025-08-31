@@ -5,6 +5,7 @@ import type { Word, GameAction, WordGameState } from "../Model"; // types only
 import { randomNoRepeats } from "../Util/Util";
 import GameScore from "../Components/GameScore";
 import { targetWords } from "../data/targetWords";
+import { usePopSound, useWrongSound } from "../AudioProvider";
 
 const MAX_CARD = 5;
 
@@ -79,12 +80,28 @@ const wordReducer = (
 };
 
 const WordGame = () => {
+  const playClickSound = usePopSound();
+  const playWrongSound = useWrongSound();
   // 🟢 use lazy init, so initWordGame runs once
   const [state, dispatch] = useReducer(wordReducer, undefined, initWordGame);
 
   const allMatched = state.words.length / 2 === state.matched.length;
 
+  // TTS for Text Cards
   useEffect(() => {
+    if (state.selectedText) {
+      const utterance = new SpeechSynthesisUtterance(state.selectedText.text);
+      const voices = window.speechSynthesis.getVoices();
+      utterance.voice =
+        voices.find((v) => v.lang.startsWith("en-US")) || voices[0];
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      window.speechSynthesis.speak(utterance);
+    }
+  }, [state.selectedText]);
+
+  useEffect(() => {
+    // Check for matches
     if (state.selectedText && state.selectedImage) {
       if (state.selectedText.text === state.selectedImage.text) {
         dispatch({
@@ -92,6 +109,7 @@ const WordGame = () => {
           payload: state.selectedText.text,
         });
       } else {
+        playWrongSound();
         dispatch({ type: GameActionTypes.WRONG, payload: true });
       }
 
@@ -109,6 +127,20 @@ const WordGame = () => {
       dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: true });
     }
   }, [allMatched]);
+
+  const handleCardClick = (word: Word, type: Card_Types) => {
+    playClickSound();
+
+    if (state.selectedText?.text === state.selectedImage?.text) {
+      //playWrongSound();
+    }
+
+    if (type === Card_Types.TEXT) {
+      dispatch({ type: GameActionTypes.SELECTED_TEXT, payload: word });
+    } else {
+      dispatch({ type: GameActionTypes.SELECTED_IMAGE, payload: word });
+    }
+  };
 
   return (
     <div className="flex flex-col flex-1 py-6 px-0 sm:px-6 bg-white justify-center items-center ">
@@ -129,11 +161,12 @@ const WordGame = () => {
                   key={`text-${randNum}`}
                   word={state.words[randNum]}
                   type={Card_Types.TEXT}
-                  onClick={() =>
-                    dispatch({
-                      type: GameActionTypes.SELECTED_TEXT,
-                      payload: state.words[randNum],
-                    })
+                  onClick={
+                    () => handleCardClick(state.words[randNum], Card_Types.TEXT)
+                    // dispatch({
+                    //   type: GameActionTypes.SELECTED_TEXT,
+                    //   payload: state.words[randNum],
+                    // })
                   }
                   isSelected={
                     state.selectedText?.text === state.words[randNum].text
@@ -159,11 +192,13 @@ const WordGame = () => {
                   key={`img-${randNum}`}
                   word={state.words[randNum]}
                   type={Card_Types.IMAGE}
-                  onClick={() =>
-                    dispatch({
-                      type: GameActionTypes.SELECTED_IMAGE,
-                      payload: state.words[randNum],
-                    })
+                  onClick={
+                    () =>
+                      handleCardClick(state.words[randNum], Card_Types.IMAGE)
+                    // dispatch({
+                    //   type: GameActionTypes.SELECTED_IMAGE,
+                    //   payload: state.words[randNum],
+                    // })
                   }
                   isSelected={
                     state.selectedImage?.text === state.words[randNum].text

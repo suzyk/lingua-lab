@@ -5,8 +5,10 @@ import { randomNoRepeats } from "../Util/Util";
 import WordCard from "../Components/WordCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router";
+import { useClickSound } from "../AudioProvider";
 
 const VocabLearning = () => {
+  const playClickSound = useClickSound();
   const words: Word[] = [...targetWords];
   const [randomizer] = useState(() => randomNoRepeats(words.length));
   const [page, setPage] = useState(0);
@@ -14,12 +16,12 @@ const VocabLearning = () => {
   const totalPages = Math.ceil(words.length / itemPerWindow);
 
   const nextPage = () => {
-    console.log("next page");
+    playClickSound();
     setPage((prev) => (prev + 1) % totalPages);
   };
 
   const prevPage = () => {
-    console.log("prev page");
+    playClickSound();
     setPage((prev) => (prev - 1 + totalPages) % totalPages);
   };
 
@@ -28,7 +30,19 @@ const VocabLearning = () => {
 
   const handleClick = (word: Word) => {
     console.log("READ THE WORD " + word.text);
+    const utterance = new SpeechSynthesisUtterance(word.text);
+
+    // Pick a US English voice if available
+    const voices = window.speechSynthesis.getVoices();
+    utterance.voice =
+      voices.find((v) => v.lang.startsWith("en-US")) || voices[0];
+
+    utterance.rate = 1; // normal speed
+    utterance.pitch = 1; // normal pitch
+
+    window.speechSynthesis.speak(utterance);
   };
+
   return (
     <div className="flex flex-col flex-1 py-6 px-0 sm:px-6 bg-white justify-center items-center">
       <h1 className="header">Vocab Learning</h1>
@@ -44,10 +58,10 @@ const VocabLearning = () => {
         {/** Display Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 auto-fit">
           {/* <div className="flex flex-wrap justify-start content-start w-[347] h-[576] gap-4"> */}
-          {currentRandoms.map((randNum) => (
+          {currentRandoms.map((randNum, i) => (
             <div className="flex items-center justify-center">
               <WordCard
-                key={randNum}
+                key={i}
                 word={words[randNum]}
                 type={Card_Types.COMPLETE}
                 onClick={() => handleClick(words[randNum])}
@@ -71,7 +85,12 @@ const VocabLearning = () => {
             to={"/word-game"}
             className="w-40 h-15 mx-4 bg-amber-500 rounded-2xl border-4 border-white text-white font-bold text-2xl hover:bg-amber-400"
           >
-            <button className="w-full h-full cursor-pointer">Quiz</button>
+            <button
+              className="w-full h-full cursor-pointer"
+              onClick={playClickSound}
+            >
+              Game
+            </button>
           </Link>
           <ChevronRight
             strokeWidth={3}

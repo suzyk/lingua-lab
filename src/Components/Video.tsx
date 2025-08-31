@@ -22,7 +22,7 @@ const Video = ({ video, handleWatched }: Props) => {
   return (
     <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4 items-center">
       {/* Video */}
-      <div className="w-full sm:flex-1 aspect-video">
+      <div className="w-full aspect-video">
         <iframe
           className="w-full h-full rounded-md"
           src={video.url}
@@ -34,7 +34,7 @@ const Video = ({ video, handleWatched }: Props) => {
       </div>
 
       {/* Button / Status */}
-      <div className="flex justify-center items-center mt-2 sm:mt-0">
+      <div className="flex w-40 h-9 justify-center items-center mt-2 sm:mt-0">
         {status === "idle" && (
           <button
             onClick={handleClick}

@@ -1,4 +1,3 @@
-import { RotateCcw } from "lucide-react";
 import ScoreStars from "./ScoreStars";
 import { GameActionTypes, type GameAction } from "../Model";
 
@@ -32,14 +31,7 @@ const GameScore = ({ score, dispatch }: Props) => {
 
   const handlePlayAgain = () => {
     dispatch({ type: GameActionTypes.RESET_GAME });
-    //dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: false });
-    //dispatch({ type: GameActionTypes.RESET_SELECTION });
   };
-
-  // const handleRestart = () => {
-  //   dispatch({ type: GameActionTypes.RESET_SELECTION });
-  //   dispatch({ type: GameActionTypes.SHOW_SCOREBOARD, payload: false });
-  // };
 
   return (
     <div className="grid grid-cols-1 gap-3 p-2 bg-sky-100 rounded-4xl p-10 border-8 border-gray-400">
@@ -56,9 +48,6 @@ const GameScore = ({ score, dispatch }: Props) => {
         >
           Play Again
         </button>
-        {/* <button className="gameScore__button pl-1" onClick={handleRestart}>
-          <RotateCcw size={30} strokeWidth={3} />
-        </button> */}
       </div>
     </div>
   );

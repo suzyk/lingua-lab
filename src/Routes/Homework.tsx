@@ -105,7 +105,7 @@ const Homework = () => {
       )}
 
       {showPage && (
-        <div className="w-full max-w-2xl flex flex-col gap-6">
+        <div className="w-full max-w-xl flex flex-col gap-6">
           <h3 className="text-gray-500 font-medium text-lg sm:text-xl text-center">
             Don't forget to click{" "}
             <strong className="text-blue-600 underline">'Done'</strong> button
