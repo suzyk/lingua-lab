@@ -24,9 +24,11 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
     // after page is ready, load the file
     popSoundRef.current = new Audio("/sounds/pop.mp3");
     popSoundRef.current.preload = "auto";
+    popSoundRef.current.volume = 0.6;
 
     wrongSoundRef.current = new Audio("/sounds/mistake.mp3");
     wrongSoundRef.current.preload = "auto";
+    popSoundRef.current.volume = 0.8;
 
     clickSoundRef.current = new Audio("/sounds/mouseClick.mp3");
     clickSoundRef.current.preload = "auto";

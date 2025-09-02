@@ -5,7 +5,8 @@ import type { Word, GameAction, WordGameState } from "../Model"; // types only
 import { randomNoRepeats } from "../Util/Util";
 import GameScore from "../Components/GameScore";
 import { targetWords } from "../data/targetWords";
-import { usePopSound, useWrongSound } from "../AudioProvider";
+import { usePopSound, useWrongSound } from "../Context/AudioProvider";
+import { useSpeech } from "../Context/SpeechProvider";
 
 const MAX_CARD = 5;
 
@@ -80,7 +81,8 @@ const wordReducer = (
 };
 
 const WordGame = () => {
-  const playClickSound = usePopSound();
+  const { speak } = useSpeech();
+  const playPopSound = usePopSound();
   const playWrongSound = useWrongSound();
   // 🟢 use lazy init, so initWordGame runs once
   const [state, dispatch] = useReducer(wordReducer, undefined, initWordGame);
@@ -90,13 +92,7 @@ const WordGame = () => {
   // TTS for Text Cards
   useEffect(() => {
     if (state.selectedText) {
-      const utterance = new SpeechSynthesisUtterance(state.selectedText.text);
-      const voices = window.speechSynthesis.getVoices();
-      utterance.voice =
-        voices.find((v) => v.lang.startsWith("en-US")) || voices[0];
-      utterance.rate = 1;
-      utterance.pitch = 1;
-      window.speechSynthesis.speak(utterance);
+      speak(state.selectedText.text);
     }
   }, [state.selectedText]);
 
@@ -129,12 +125,7 @@ const WordGame = () => {
   }, [allMatched]);
 
   const handleCardClick = (word: Word, type: Card_Types) => {
-    playClickSound();
-
-    if (state.selectedText?.text === state.selectedImage?.text) {
-      //playWrongSound();
-    }
-
+    playPopSound(); // always play
     if (type === Card_Types.TEXT) {
       dispatch({ type: GameActionTypes.SELECTED_TEXT, payload: word });
     } else {

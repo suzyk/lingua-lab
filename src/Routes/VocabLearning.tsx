@@ -5,10 +5,12 @@ import { randomNoRepeats } from "../Util/Util";
 import WordCard from "../Components/WordCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router";
-import { useClickSound } from "../AudioProvider";
+import { useClickSound } from "../Context/AudioProvider";
+import { useSpeech } from "../Context/SpeechProvider";
 
 const VocabLearning = () => {
   const playClickSound = useClickSound();
+  const { speak } = useSpeech();
   const words: Word[] = [...targetWords];
   const [randomizer] = useState(() => randomNoRepeats(words.length));
   const [page, setPage] = useState(0);
@@ -29,18 +31,7 @@ const VocabLearning = () => {
   const currentRandoms = randomizer.slice(start, start + itemPerWindow);
 
   const handleClick = (word: Word) => {
-    console.log("READ THE WORD " + word.text);
-    const utterance = new SpeechSynthesisUtterance(word.text);
-
-    // Pick a US English voice if available
-    const voices = window.speechSynthesis.getVoices();
-    utterance.voice =
-      voices.find((v) => v.lang.startsWith("en-US")) || voices[0];
-
-    utterance.rate = 1; // normal speed
-    utterance.pitch = 1; // normal pitch
-
-    window.speechSynthesis.speak(utterance);
+    speak(word.text);
   };
 
   return (
