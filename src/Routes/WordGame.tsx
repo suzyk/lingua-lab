@@ -4,7 +4,7 @@ import { Card_Types, GameActionTypes } from "../Model"; // runtime values
 import type { Word, GameAction, WordGameState } from "../Model"; // types only
 import { randomNoRepeats } from "../Util/Util";
 import GameScore from "../Components/GameScore";
-import { targetWords } from "../data/targetWords";
+import { targetWords } from "../Data/Data";
 import { usePopSound, useWrongSound } from "../Context/AudioProvider";
 import { useSpeech } from "../Context/SpeechProvider";
 
@@ -152,12 +152,8 @@ const WordGame = () => {
                   key={`text-${randNum}`}
                   word={state.words[randNum]}
                   type={Card_Types.TEXT}
-                  onClick={
-                    () => handleCardClick(state.words[randNum], Card_Types.TEXT)
-                    // dispatch({
-                    //   type: GameActionTypes.SELECTED_TEXT,
-                    //   payload: state.words[randNum],
-                    // })
+                  onClick={() =>
+                    handleCardClick(state.words[randNum], Card_Types.TEXT)
                   }
                   isSelected={
                     state.selectedText?.text === state.words[randNum].text
@@ -183,13 +179,8 @@ const WordGame = () => {
                   key={`img-${randNum}`}
                   word={state.words[randNum]}
                   type={Card_Types.IMAGE}
-                  onClick={
-                    () =>
-                      handleCardClick(state.words[randNum], Card_Types.IMAGE)
-                    // dispatch({
-                    //   type: GameActionTypes.SELECTED_IMAGE,
-                    //   payload: state.words[randNum],
-                    // })
+                  onClick={() =>
+                    handleCardClick(state.words[randNum], Card_Types.IMAGE)
                   }
                   isSelected={
                     state.selectedImage?.text === state.words[randNum].text

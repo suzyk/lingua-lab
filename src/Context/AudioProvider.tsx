@@ -21,7 +21,7 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
   const clickSoundRef = useRef<HTMLAudioElement | null>(null);
 
   // Detect mobile device (iOS, Android)
-  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   useEffect(() => {
     if (isMobile) return; // Don't load audio on mobile devices

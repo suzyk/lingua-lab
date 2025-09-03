@@ -3,6 +3,7 @@ import Video from "../Components/Video";
 import type { VideoHomework } from "../Model";
 import ConfettiExplosion from "react-confetti-explosion";
 import useFade from "../Util/useFade";
+import { homework } from "../Data/Data";
 
 const HOMEWORK_DATE = "2025-08-28";
 
@@ -12,26 +13,7 @@ const Homework = () => {
   );
 
   const [videos, setVideos] = useState<VideoHomework[]>(
-    stored.videos?.length
-      ? stored.videos
-      : [
-          {
-            url: "https://www.youtube.com/embed/eBVqcTEC3zQ?si=sxI7BLVOdl9yYXa5",
-            isWatched: false,
-          },
-          {
-            url: "https://www.youtube.com/embed/W9rX6ApYqjo?si=yUudL6YR4yxqAyjc",
-            isWatched: false,
-          },
-          {
-            url: "https://www.youtube.com/embed/-GSnmRZlgc4?si=xgfzXlo-ah8qAstS",
-            isWatched: false,
-          },
-          {
-            url: "https://www.youtube.com/embed/WFQIrd97t-Y?si=bIxyh0CRNYSkCVrt",
-            isWatched: false,
-          },
-        ]
+    stored.videos?.length ? stored.videos : homework
   );
 
   const allWatched = videos.every((v) => v.isWatched);
