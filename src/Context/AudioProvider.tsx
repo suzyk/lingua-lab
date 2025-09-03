@@ -20,7 +20,11 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
   const wrongSoundRef = useRef<HTMLAudioElement | null>(null);
   const clickSoundRef = useRef<HTMLAudioElement | null>(null);
 
+  // Detect mobile device (iOS, Android)
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
   useEffect(() => {
+    if (isMobile) return; // Don't load audio on mobile devices
     // after page is ready, load the file
     popSoundRef.current = new Audio("/sounds/pop.wav");
     popSoundRef.current.preload = "auto";
@@ -35,6 +39,7 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const playPopSound = () => {
+    if (isMobile) return;
     const audio = popSoundRef.current; // grab the ref and play it.
     if (audio) {
       audio.currentTime = 0; // file always plays from beginning
@@ -43,6 +48,7 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const playWrongSound = () => {
+    if (isMobile) return;
     const audio = wrongSoundRef.current; // grab the ref and play it.
     if (audio) {
       audio.currentTime = 0; // file always plays from beginning
@@ -51,6 +57,7 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const playClickSound = () => {
+    if (isMobile) return;
     const audio = clickSoundRef.current; // grab the ref and play it.
     if (audio) {
       audio.currentTime = 0; // file always plays from beginning
