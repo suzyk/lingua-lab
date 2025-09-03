@@ -44,7 +44,7 @@ export const SpeechProvider = ({ children }: { children: React.ReactNode }) => {
       voices[0];
 
     // Safari tends to sound fast — slow it down
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    //const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     utterance.rate = 0.8; //isSafari ? 0.8 : 1;
 
     window.speechSynthesis.speak(utterance);
