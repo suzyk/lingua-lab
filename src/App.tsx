@@ -10,6 +10,7 @@ import Quiz from "./Routes/Quiz";
 import WordGame from "./Routes/WordGame";
 import { AudioProvider } from "./Context/AudioProvider";
 import { SpeechProvider } from "./Context/SpeechProvider";
+import Auth from "./Components/Auth";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/word-game" element={<WordGame />}></Route>
               <Route path="/vocab-learn" element={<VocabLearning />}></Route>
               <Route path="/quiz" element={<Quiz />}></Route>
+              <Route path="/signIn" element={<Auth />}></Route>
             </Routes>
           </Router>
           {/* Footer */}

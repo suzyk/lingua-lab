@@ -35,6 +35,14 @@ const Navbar = () => {
               Contact
             </Link>
           </li>
+          <li>
+            <Link
+              to="/signIn"
+              className="text-amber-500 border-amber-500 hover:border-b-2 border-b-0 transition-colors px-2 py-1 ml-5"
+            >
+              Sign In
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
