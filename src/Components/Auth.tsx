@@ -1,21 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { supabase } from "../supabaseClient";
+import Spinner from "./Spinner";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
     });
-    if (error) setMessage(error.message);
+    if (error) {
+      setMessage(error.message);
+      setGoogleLoading(false);
+    }
   };
 
   const handleEmailSignUp = async () => {
-    setLoading(true);
+    setEmailLoading(true);
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -25,24 +31,19 @@ export default function Auth() {
     });
     if (error) setMessage(error.message);
     else setMessage("Check your email for confirmation link!");
-    setLoading(false);
+    setEmailLoading(false);
   };
 
   const handleEmailSignIn = async () => {
-    setLoading(true);
+    setEmailLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     if (error) setMessage(error.message);
     else setMessage("Logged in!");
-    setLoading(false);
+    setEmailLoading(false);
   };
-
-  // useEffect(() => {
-  //   console.log("email : " + email);
-  //   console.log("password : " + password);
-  // }, [email, password]);
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -82,17 +83,44 @@ export default function Auth() {
         {/* Sign up button */}
         <button
           onClick={handleEmailSignUp}
-          className="mb-4 w-full rounded-md bg-amber-600 px-4 py-2 text-white transition hover:bg-amber-700"
+          disabled={emailLoading || googleLoading}
+          className={`mb-4 w-full rounded-md px-4 py-2 transition 
+              ${
+                googleLoading || emailLoading
+                  ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                  : "text-white  bg-amber-600 hover:bg-amber-700"
+              }`}
         >
-          Sign Up
+          {/* {<div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />} */}
+          {emailLoading ? (
+            <span className="flex items-center justify-center gap-2">
+              <Spinner color="text-white" />
+              Processing...
+            </span>
+          ) : (
+            "Sign Up"
+          )}
         </button>
 
         {/* Google button */}
         <button
           onClick={handleGoogleLogin}
-          className="mb-6 w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 transition hover:bg-gray-100"
+          disabled={emailLoading || googleLoading}
+          className={`mb-6 w-full rounded-md border border-gray-300 bg-white px-4 py-2 transition 
+          ${
+            googleLoading || emailLoading
+              ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+              : "text-gray-700 hover:bg-gray-100"
+          }`}
         >
-          Continue with Google
+          {googleLoading ? (
+            <span className="flex items-center justify-center gap-2">
+              <Spinner color="text-gray-600" />
+              Processing...
+            </span>
+          ) : (
+            "Continue with Google"
+          )}
         </button>
 
         {/* Separator */}
