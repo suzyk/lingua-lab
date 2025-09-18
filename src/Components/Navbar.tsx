@@ -1,6 +1,42 @@
 import { Link } from "react-router-dom";
+import { supabase } from "../supabaseClient";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // check if user is already logged in
+    //const { data, error } = await supabase.auth.getSession()
+    // data : {session}   == data.session deconstruction
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // listen for login/logout
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null); // in sign out, session becomes null
+    });
+    // if (event === 'SIGNED_IN') {
+    //   console.log('Welcome back!', session.user.email)
+    //   setUser(session.user)
+    // }
+    // if (event === 'SIGNED_OUT') {
+    //   console.log('User signed out')
+    //   setUser(null)
+    // }
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
   return (
     <header className="flex flex-col sm:flex-row justify-between items-center px-4 sm:px-8 py-4 gap-4 sm:gap-0">
       {/* Logo */}
@@ -36,12 +72,22 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link
-              to="/signIn"
-              className="text-amber-500 border-amber-500 hover:border-b-2 border-b-0 transition-colors px-2 py-1 ml-5"
-            >
-              Sign In
-            </Link>
+            {user ? (
+              <Link
+                to="/"
+                onClick={handleSignOut}
+                className="text-blue-500 border-blue-500 hover:border-b-2 border-b-0 transition-colors px-2 py-1 ml-5"
+              >
+                Sign Out
+              </Link>
+            ) : (
+              <Link
+                to="/signIn"
+                className="text-amber-500 border-amber-500 hover:border-b-2 border-b-0 transition-colors px-2 py-1 ml-5"
+              >
+                Sign In
+              </Link>
+            )}
           </li>
         </ul>
       </nav>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
 import Spinner from "./Spinner";
+import { useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -8,29 +10,66 @@ export default function Auth() {
   const [emailLoading, setEmailLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false);
+  const navigate = useNavigate();
+
+  // ✅ redirect base URL (easy to update later)
+  const redirectBase =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:5173"
+      : "https://lingualab-tr.vercel.app";
+
+  // 🔹 Error translation helper
+  const translateError = (error: any) => {
+    if (!error?.message) return "Bilinmeyen bir hata oluştu.";
+
+    const msg = error.message.toLowerCase();
+
+    if (msg.includes("invalid login credentials"))
+      return "E-posta veya şifre yanlış.";
+    if (msg.includes("password should be at least"))
+      return "Şifre en az 6 karakter olmalıdır.";
+    if (msg.includes("user already registered"))
+      return "Bu e-posta ile zaten kayıtlı bir hesap var.";
+    if (msg.includes("invalid email"))
+      return "Geçerli bir e-posta adresi giriniz.";
+    if (msg.includes("email not confirmed"))
+      return "E-posta adresinizi onaylamanız gerekiyor.";
+
+    return error.message; // fallback (English)
+  };
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
+      options: { redirectTo: redirectBase },
     });
     if (error) {
-      setMessage(error.message);
+      setMessage(translateError(error));
       setGoogleLoading(false);
     }
   };
 
   const handleEmailSignUp = async () => {
     setEmailLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: name },
-      },
-    });
-    if (error) setMessage(error.message);
-    else setMessage("Check your email for confirmation link!");
+
+    // Client-side quick checks
+    if (!email.includes("@")) {
+      setMessage("Geçerli bir e-posta adresi giriniz.");
+      setEmailLoading(false);
+      return;
+    }
+    if (password.length < 6) {
+      setMessage("Şifre en az 6 karakter olmalıdır.");
+      setEmailLoading(false);
+      return;
+    }
+
+    const { error } = await supabase.auth.signUp({ email, password });
+
+    if (error) setMessage(translateError(error));
+    else setMessage("E-postanızı kontrol edin, doğrulama linki gönderildi!");
     setEmailLoading(false);
   };
 
@@ -40,22 +79,47 @@ export default function Auth() {
       email,
       password,
     });
-    if (error) setMessage(error.message);
-    else setMessage("Logged in!");
+    if (error) setMessage(translateError(error));
+    else {
+      setMessage("Başarıyla giriş yaptınız!");
+      navigate("/");
+    }
     setEmailLoading(false);
+  };
+
+  const handlePasswordReset = async () => {
+    if (!email) {
+      setMessage("Lütfen önce e-posta adresinizi girin.");
+      return;
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${redirectBase}/reset-password`,
+    });
+
+    if (error) setMessage(translateError(error));
+    else setMessage("Şifre sıfırlama linki e-postanıza gönderildi.");
+  };
+
+  const handleSubmit = () => {
+    if (isSignUp) {
+      handleEmailSignUp();
+    } else {
+      handleEmailSignIn();
+    }
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow">
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
-          Create an Account
+          {isSignUp ? "Hesap Oluşturun" : "Giriş Yap"}
         </h2>
 
         {/* Email */}
         <div className="mb-4">
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            Email
+            E-Posta
           </label>
           <input
             type="email"
@@ -69,7 +133,7 @@ export default function Auth() {
         {/* Password */}
         <div className="mb-6">
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            Password
+            Şifre
           </label>
           <input
             type="password"
@@ -80,25 +144,26 @@ export default function Auth() {
           />
         </div>
 
-        {/* Sign up button */}
+        {/* Submit button */}
         <button
-          onClick={handleEmailSignUp}
+          onClick={handleSubmit}
           disabled={emailLoading || googleLoading}
           className={`mb-4 w-full rounded-md px-4 py-2 transition 
               ${
                 googleLoading || emailLoading
                   ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                  : "text-white  bg-amber-600 hover:bg-amber-700"
+                  : "text-white bg-amber-600 hover:bg-amber-700"
               }`}
         >
-          {/* {<div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />} */}
           {emailLoading ? (
             <span className="flex items-center justify-center gap-2">
               <Spinner color="text-white" />
-              Processing...
+              İşlem yapılıyor...
             </span>
+          ) : isSignUp ? (
+            "Üye Ol"
           ) : (
-            "Sign Up"
+            "Giriş Yap"
           )}
         </button>
 
@@ -106,8 +171,7 @@ export default function Auth() {
         <button
           onClick={handleGoogleLogin}
           disabled={emailLoading || googleLoading}
-          className={`mb-6 w-full rounded-md border border-gray-300 bg-white px-4 py-2 transition 
-          ${
+          className={`mb-6 w-full rounded-md border border-gray-300 bg-white px-4 py-2 flex items-center justify-center gap-2 transition ${
             googleLoading || emailLoading
               ? "bg-gray-400 text-gray-200 cursor-not-allowed"
               : "text-gray-700 hover:bg-gray-100"
@@ -116,33 +180,50 @@ export default function Auth() {
           {googleLoading ? (
             <span className="flex items-center justify-center gap-2">
               <Spinner color="text-gray-600" />
-              Processing...
+              İşlem yapılıyor...
             </span>
           ) : (
-            "Continue with Google"
+            <>
+              <FcGoogle size={20} /> <span>Google İle Giriş Yap</span>
+            </>
           )}
         </button>
 
-        {/* Separator */}
-        <div className="relative mb-4">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 text-gray-500">or</span>
-          </div>
-        </div>
-
-        {/* Already a member */}
+        {/* Toggle between login/signup */}
         <p className="text-center text-sm text-gray-600">
-          Already a member?{" "}
-          <button
-            onClick={handleEmailSignIn}
-            className="font-medium text-blue-600 hover:underline"
-          >
-            Log In
-          </button>
+          {isSignUp ? (
+            <>
+              Zaten üye misiniz?{" "}
+              <button
+                onClick={() => setIsSignUp(false)}
+                className="font-medium text-blue-600 hover:underline"
+              >
+                Giriş Yap
+              </button>
+            </>
+          ) : (
+            <>
+              Burada yeni misiniz?{" "}
+              <button
+                onClick={() => setIsSignUp(true)}
+                className="font-medium text-blue-600 hover:underline"
+              >
+                Hesap oluşturun
+              </button>
+            </>
+          )}
         </p>
+
+        {!isSignUp && (
+          <p className="mt-2 text-center text-sm text-gray-600">
+            <button
+              onClick={handlePasswordReset}
+              className="font-medium text-blue-600 hover:underline"
+            >
+              Şifrenizi mi unuttunuz?
+            </button>
+          </p>
+        )}
 
         {/* Message */}
         {message && (

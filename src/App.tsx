@@ -11,6 +11,7 @@ import WordGame from "./Routes/WordGame";
 import { AudioProvider } from "./Context/AudioProvider";
 import { SpeechProvider } from "./Context/SpeechProvider";
 import Auth from "./Components/Auth";
+import Reset_Password from "./Components/Reset_Password";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/vocab-learn" element={<VocabLearning />}></Route>
               <Route path="/quiz" element={<Quiz />}></Route>
               <Route path="/signIn" element={<Auth />}></Route>
+              <Route path="/reset-password" element={<Reset_Password />} />
             </Routes>
           </Router>
           {/* Footer */}
