@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { useState, useEffect } from "react";
+import { FaUser } from "react-icons/fa6";
 
 const Navbar = () => {
   const [user, setUser] = useState<any>(null);
@@ -46,7 +47,7 @@ const Navbar = () => {
 
       {/* Nav Links */}
       <nav>
-        <ul className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-base sm:text-lg text-gray-700 font-medium text-center">
+        <ul className="flex flex-col items-center sm:flex-row gap-4 sm:gap-8 text-base sm:text-lg text-gray-700 font-medium text-center">
           <li>
             <Link
               to="/homework"
@@ -73,14 +74,17 @@ const Navbar = () => {
           </li>
           <li>
             {user ? (
-              <Link
-                to="/"
-                onClick={handleSignOut}
-                className="text-blue-500 border-blue-500 hover:border-b-2 border-b-0 transition-colors px-2 py-1 ml-5"
-              >
-                Sign Out
+              <Link to="/dashboard">
+                <FaUser className="text-gray-400 hover:text-amber-600 transition-colors" />
               </Link>
             ) : (
+              // <Link
+              //   to="/"
+              //   onClick={handleSignOut}
+              //   className="text-blue-500 border-blue-500 hover:border-b-2 border-b-0 transition-colors px-2 py-1 ml-5"
+              // >
+              //   Sign Out
+              // </Link>
               <Link
                 to="/signIn"
                 className="text-amber-500 border-amber-500 hover:border-b-2 border-b-0 transition-colors px-2 py-1 ml-5"

@@ -12,6 +12,7 @@ import { AudioProvider } from "./Context/AudioProvider";
 import { SpeechProvider } from "./Context/SpeechProvider";
 import Auth from "./Components/Auth";
 import Reset_Password from "./Components/Reset_Password";
+import Dashboard from "./Components/Dashboard";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="/quiz" element={<Quiz />}></Route>
               <Route path="/signIn" element={<Auth />}></Route>
               <Route path="/reset-password" element={<Reset_Password />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </Router>
           {/* Footer */}

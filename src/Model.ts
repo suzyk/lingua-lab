@@ -1,6 +1,8 @@
 export interface VideoHomework {
+  title: string;
   url: string;
   isWatched: boolean;
+  dueDate: string;
 }
 
 export interface Word {

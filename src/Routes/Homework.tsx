@@ -3,9 +3,7 @@ import Video from "../Components/Video";
 import type { VideoHomework } from "../Model";
 import ConfettiExplosion from "react-confetti-explosion";
 import useFade from "../Util/useFade";
-import { homework } from "../Data/Data";
-
-const HOMEWORK_DATE = "2025-08-28";
+import { HOMEWORK_DATE, homework } from "../Data/Data";
 
 const Homework = () => {
   const stored = JSON.parse(

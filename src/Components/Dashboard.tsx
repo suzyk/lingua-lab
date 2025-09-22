@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
+import HomeworkTracker from "./HomeworkTracker";
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
@@ -21,6 +22,7 @@ export default function Dashboard() {
             Welcome, {user.user_metadata?.full_name || user.email}
           </h2>
           <p className="text-gray-600">You are logged in 🎉</p>
+          <HomeworkTracker />
         </>
       ) : (
         <p>Loading...</p>
