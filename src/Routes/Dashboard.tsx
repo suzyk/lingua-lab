@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
-import HomeworkTracker from "./HomeworkTracker";
+import HomeworkTracker from "../Components/HomeworkTracker";
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);

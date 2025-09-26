@@ -1,4 +1,5 @@
 export interface VideoHomework {
+  id: string;
   title: string;
   url: string;
   isWatched: boolean;

@@ -12,7 +12,7 @@ import { AudioProvider } from "./Context/AudioProvider";
 import { SpeechProvider } from "./Context/SpeechProvider";
 import Auth from "./Components/Auth";
 import Reset_Password from "./Components/Reset_Password";
-import Dashboard from "./Components/Dashboard";
+import Dashboard from "./Routes/Dashboard";
 
 function App() {
   return (

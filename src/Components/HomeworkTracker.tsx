@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HOMEWORK_DATE, homework } from "../Data/Data";
 import type { VideoHomework } from "../Model";
 
 const HomeworkTracker = () => {
+  const navigate = useNavigate();
+
   const stored = JSON.parse(
     localStorage.getItem(`homework-${HOMEWORK_DATE}`) || "{}"
   );
@@ -11,6 +14,10 @@ const HomeworkTracker = () => {
     stored.videos?.length ? stored.videos : homework
   );
   const watchedCount = videos.filter((v) => v.isWatched).length;
+
+  const goToHomework = (videoId: string) => {
+    navigate("/homework", { state: { videoId } });
+  };
 
   return (
     <div className="flex flex-col max-w-md p-8 justify-center items-center bg-stone-50 rounded-2xl shadow-lg shadow-stone-200">
@@ -31,7 +38,7 @@ const HomeworkTracker = () => {
       <ul className="w-full space-y-4">
         {videos.map((video, index) => (
           <li
-            key={index}
+            key={`track_${video.id}`}
             className="flex flex-row w-full justify-between items-center py-3 px-5 bg-white rounded-lg shadow-md shadow-stone-200 hover:shadow-lg transition"
           >
             <div className="flex flex-col">
@@ -43,7 +50,10 @@ const HomeworkTracker = () => {
               </label>
             </div>
             <div>
-              <button className="px-4 py-1 text-yellow-700 font-semibold border-2 border-stone-400 rounded-md hover:bg-yellow-200 transition">
+              <button
+                onClick={() => goToHomework(video.id)}
+                className="px-4 py-1 text-yellow-700 font-semibold border-2 border-stone-400 rounded-md hover:bg-yellow-200 transition"
+              >
                 Ödeve git
               </button>
             </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Video from "../Components/Video";
 import type { VideoHomework } from "../Model";
 import ConfettiExplosion from "react-confetti-explosion";
@@ -6,6 +7,9 @@ import useFade from "../Util/useFade";
 import { HOMEWORK_DATE, homework } from "../Data/Data";
 
 const Homework = () => {
+  const location = useLocation();
+  const videoId = location.state?.videoId;
+
   const stored = JSON.parse(
     localStorage.getItem(`homework-${HOMEWORK_DATE}`) || "{}"
   );
@@ -24,6 +28,15 @@ const Homework = () => {
     fadeOut: true,
     duration: 1000,
   });
+
+  useEffect(() => {
+    if (showPage && videoId) {
+      const el = document.getElementById(videoId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [showPage, videoId]);
 
   // Save videos + celebrate flag in localStorage
   useEffect(() => {
@@ -93,7 +106,7 @@ const Homework = () => {
           </h3>
           <ul className="flex flex-col gap-6">
             {videos.map((video, index) => (
-              <li key={index}>
+              <li key={`homework_${video.id}`} id={video.id}>
                 <Video
                   video={video}
                   handleWatched={() => handleWatched(index)}
