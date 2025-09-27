@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 export default function Auth() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailLoading, setEmailLoading] = useState(false);
@@ -65,8 +66,21 @@ export default function Auth() {
       setEmailLoading(false);
       return;
     }
+    if (!name.trim()) {
+      setMessage("Lütfen adınızı giriniz.");
+      setEmailLoading(false);
+      return;
+    }
 
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: name.trim(),
+        },
+      },
+    });
 
     if (error) setMessage(translateError(error));
     else setMessage("E-postanızı kontrol edin, doğrulama linki gönderildi!");
@@ -115,6 +129,22 @@ export default function Auth() {
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
           {isSignUp ? "Hesap Oluşturun" : "Giriş Yap"}
         </h2>
+
+        {/* Display name */}
+        {isSignUp && (
+          <div className="mb-4">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Öğrenci Adı
+            </label>
+            <input
+              type="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Adı"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            />
+          </div>
+        )}
 
         {/* Email */}
         <div className="mb-4">

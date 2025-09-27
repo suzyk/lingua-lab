@@ -1,22 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { HOMEWORK_DATE, homework } from "../Data/Data";
+import { fetchHomework } from "../Data/Data";
 import type { VideoHomework } from "../Model";
 
-const HomeworkTracker = () => {
+interface Props {
+  studentId: string;
+}
+const HomeworkTracker = ({ studentId }: Props) => {
   const navigate = useNavigate();
-
+  /*
   const stored = JSON.parse(
     localStorage.getItem(`homework-${HOMEWORK_DATE}`) || "{}"
   );
 
   const [videos, setVideos] = useState<VideoHomework[]>(
     stored.videos?.length ? stored.videos : homework
-  );
+  );*/
+  const [videos, setVideos] = useState<VideoHomework[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadHomework = async () => {
+      const hw = await fetchHomework(studentId);
+      setVideos(hw);
+      setLoading(false);
+    };
+    if (studentId) {
+      loadHomework();
+    }
+    /** same stuff
+       * if (studentId) {
+    fetchHomework(studentId).then((data) => {
+      setVideos(data);
+      setLoading(false);
+    });
+  }
+       */
+  }, [studentId]);
+
   const watchedCount = videos.filter((v) => v.isWatched).length;
 
-  const goToHomework = (videoId: string) => {
-    navigate("/homework", { state: { videoId } });
+  const goToHomework = (videoId?: string) => {
+    if (videoId) navigate("/homework", { state: { studentId, videoId } });
   };
 
   return (
@@ -36,9 +61,9 @@ const HomeworkTracker = () => {
 
       {/* Homework list */}
       <ul className="w-full space-y-4">
-        {videos.map((video, index) => (
+        {videos.map((video) => (
           <li
-            key={`track_${video.id}`}
+            key={`track_${video.assignmentId}`}
             className="flex flex-row w-full justify-between items-center py-3 px-5 bg-white rounded-lg shadow-md shadow-stone-200 hover:shadow-lg transition"
           >
             <div className="flex flex-col">
@@ -50,12 +75,21 @@ const HomeworkTracker = () => {
               </label>
             </div>
             <div>
-              <button
-                onClick={() => goToHomework(video.id)}
-                className="px-4 py-1 text-yellow-700 font-semibold border-2 border-stone-400 rounded-md hover:bg-yellow-200 transition"
-              >
-                Ödeve git
-              </button>
+              {video.isWatched ? (
+                <button
+                  disabled={true}
+                  className="px-4 py-1 text-white bg-stone-300 font-semibold border-2 border-stone-400 rounded-md"
+                >
+                  Tamamlandı
+                </button>
+              ) : (
+                <button
+                  onClick={() => goToHomework(video.id)}
+                  className="px-4 py-1 text-yellow-700 font-semibold border-2 border-stone-400 rounded-md hover:bg-yellow-200 transition"
+                >
+                  Ödeve git
+                </button>
+              )}
             </div>
           </li>
         ))}

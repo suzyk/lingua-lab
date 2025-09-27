@@ -1,5 +1,6 @@
 import type { VideoHomework, Word } from "../Model";
 import { v4 as uuidv4 } from "uuid";
+import { supabase } from "../supabaseClient";
 
 export const HOMEWORK_DATE = "2025-08-28";
 export const DUE_DATE = "2025-08-30";
@@ -14,6 +15,51 @@ export const targetWords: Word[] = [
   { theme: "vegetable", text: "pumpkin", image_url: "../images/pumpkin.png" },
   { theme: "vegetable", text: "radish", image_url: "../images/radish.png" },
 ];
+
+const getEmbedUrl = (url: string) => {
+  const match = url.match(/v=([^&]+)/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+};
+
+export async function fetchHomework(
+  studentId: string
+): Promise<VideoHomework[]> {
+  const { data, error } = await supabase
+    .from("student_homework")
+    .select(
+      `
+        id,
+        completed,
+        teacher_comment,
+        due_date,
+        homework (
+          id,
+          title,
+          video_url
+        )
+      `
+    )
+    .eq("student_id", studentId)
+    .order("assigned_at", { ascending: false });
+
+  console.log("Homework rows:", data, "Error:", error);
+
+  if (error) {
+    console.error("Supabase fetch error:", error);
+    return [];
+  }
+
+  // Map database rows to your existing VideoHomework interface
+  return (data as any[]).map((item) => ({
+    assignmentId: item.id as string,
+    id: item.homework.id as string,
+    title: item.homework.title as string,
+    url: getEmbedUrl(item.homework.video_url as string),
+    isWatched: item.completed as boolean,
+    dueDate: item.due_date ?? undefined,
+    teacherComment: item.teacher_comment ?? undefined,
+  }));
+}
 
 export const homework: VideoHomework[] = [
   {

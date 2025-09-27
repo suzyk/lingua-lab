@@ -1,9 +1,18 @@
-export interface VideoHomework {
+/*export interface VideoHomework {
   id: string;
   title: string;
   url: string;
   isWatched: boolean;
   dueDate: string;
+}*/
+export interface VideoHomework {
+  assignmentId?: string; // student_homework.id
+  id?: string;
+  title: string; // homework.title
+  url: string; // homework.video_url
+  isWatched: boolean; // completed
+  dueDate?: string; // optional if you add deadlines
+  teacherComment?: string;
 }
 
 export interface Word {
