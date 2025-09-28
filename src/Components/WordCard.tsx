@@ -1,4 +1,3 @@
-import React from "react";
 import { Card_Types } from "../Model";
 import type { Word } from "../Model";
 import { CircleCheck } from "lucide-react";
