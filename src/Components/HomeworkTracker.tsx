@@ -44,6 +44,25 @@ const HomeworkTracker = ({ studentId }: Props) => {
     if (videoId) navigate("/homework", { state: { studentId, videoId } });
   };
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full p-6">
+        <div className="h-6 w-48 bg-stone-200 rounded mb-2 animate-pulse"></div>
+        <div className="h-4 w-32 bg-stone-100 rounded animate-pulse"></div>
+        <ul className="w-full mt-4 space-y-2">
+          {Array(3)
+            .fill(0)
+            .map((_, i) => (
+              <li
+                key={i}
+                className="h-16 bg-stone-100 rounded-lg animate-pulse"
+              />
+            ))}
+        </ul>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col w-full max-w-md p-6 sm:p-8 justify-center items-center bg-stone-50 rounded-2xl shadow-lg shadow-stone-200">
       <h1 className="text-2xl sm:text-3xl font-bold text-yellow-900 text-center">
