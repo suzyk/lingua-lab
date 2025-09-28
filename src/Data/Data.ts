@@ -1,4 +1,3 @@
-import { data } from "react-router";
 import type { VideoHomework, Word } from "../Model";
 import { supabase } from "../supabaseClient";
 
