@@ -114,20 +114,30 @@ const Homework = () => {
       </div>
     );
   }
+  if (!videos || videos.length === 0) {
+    return (
+      <div className="text-center font-medium text-lg sm:text-xl text-gray-500 my-12">
+        Ödevler bulunmadı 😅
+        <br />
+        <button
+          className="mt-3 px-4 py-2 bg-yellow-500 text-white rounded"
+          onClick={() => window.location.reload()}
+        >
+          Tekrar dene
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col flex-1 bg-white items-center justify-center w-full py-6 px-4 sm:px-6 md:px-8">
       <div className="w-full max-w-xl flex flex-col gap-6">
         <h3 className="text-gray-500 font-medium text-lg sm:text-xl text-center">
-          {videos.length === 0 ? (
-            "Ödev bulunmadı 😅"
-          ) : (
-            <>
-              Madalyanın kilidini açmak için{" "}
-              <strong className="text-blue-600 underline">'Done'</strong>{" "}
-              düğmesine tıklayın! 🏅
-            </>
-          )}
+          <>
+            Madalyanın kilidini açmak için{" "}
+            <strong className="text-blue-600 underline">'Done'</strong>{" "}
+            düğmesine tıklayın! 🏅
+          </>
         </h3>
         <ul className="flex flex-col gap-6">
           {videos.map((video, index) => (

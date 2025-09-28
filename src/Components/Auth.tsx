@@ -17,8 +17,8 @@ export default function Auth() {
   // ✅ redirect base URL (easy to update later)
   const redirectBase =
     import.meta.env.MODE === "development"
-      ? "http://localhost:5173"
-      : "https://lingualab-tr.vercel.app";
+      ? "http://localhost:5173/dashboard"
+      : "https://lingualab-tr.vercel.app/dashboard";
 
   // 🔹 Error translation helper
   const translateError = (error: any) => {
