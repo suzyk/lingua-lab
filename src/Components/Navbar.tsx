@@ -44,7 +44,7 @@ const Navbar = () => {
       {/* Nav Links */}
       <nav>
         <ul className="flex flex-col items-center sm:flex-row gap-4 sm:gap-8 text-base sm:text-lg text-gray-700 font-medium text-center">
-          {user && (
+          {/* {user && (
             <li>
               <Link
                 to="/homework"
@@ -53,7 +53,15 @@ const Navbar = () => {
                 Homework
               </Link>
             </li>
-          )}
+          )} */}
+          <li>
+            <Link
+              to="/homework"
+              className="hover:text-amber-500 transition-colors px-2 py-1"
+            >
+              Homework
+            </Link>
+          </li>
 
           <li>
             <Link

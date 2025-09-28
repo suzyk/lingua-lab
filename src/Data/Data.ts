@@ -1,7 +1,8 @@
+import { data } from "react-router";
 import type { VideoHomework, Word } from "../Model";
 import { supabase } from "../supabaseClient";
 
-export const HOMEWORK_DATE = "2025-08-28";
+//export const HOMEWORK_DATE = "2025-08-28";
 export const DUE_DATE = "2025-08-30";
 
 export const targetWords: Word[] = [
@@ -60,35 +61,70 @@ export async function fetchHomework(
     teacherComment: item.teacher_comment ?? undefined,
   }));
 }
-/*
-export const homework: VideoHomework[] = [
+
+const now = new Date().toISOString(); // simple timestamp for the first item
+
+export const defaultHomework: VideoHomework[] = [
   {
-    id: uuidv4(),
-    title: "Fruit names",
-    url: "https://www.youtube.com/embed/eBVqcTEC3zQ?si=sxI7BLVOdl9yYXa5",
+    id: now,
+    title: "Hello How are you",
+    url: getEmbedUrl("https://www.youtube.com/watch?v=tVlcKp3bWH8"),
     isWatched: false,
+    assignedDate: now,
     dueDate: DUE_DATE,
   },
   {
-    id: uuidv4(),
-    title: "Homework name",
-    url: "https://www.youtube.com/embed/W9rX6ApYqjo?si=yUudL6YR4yxqAyjc",
+    id: `${now}1`,
+    title: "What's your name",
+    url: getEmbedUrl(
+      "https://www.youtube.com/watch?v=Uv1JkBL5728&list=RDUv1JkBL5728&start_radio=1"
+    ),
     isWatched: false,
+    assignedDate: now,
     dueDate: DUE_DATE,
   },
   {
-    id: uuidv4(),
-    title: "Very very very very very long title",
-    url: "https://www.youtube.com/embed/-GSnmRZlgc4?si=xgfzXlo-ah8qAstS",
+    id: `${now}2`,
+    title: "How old are you?",
+    url: getEmbedUrl("https://www.youtube.com/watch?v=1OON8dkC_AM"),
     isWatched: false,
+    assignedDate: now,
     dueDate: DUE_DATE,
   },
   {
-    id: uuidv4(),
-    title: "Story book",
-    url: "https://www.youtube.com/embed/WFQIrd97t-Y?si=bIxyh0CRNYSkCVrt",
+    id: `${now}3`,
+    title: "Move! song",
+    url: getEmbedUrl("https://www.youtube.com/watch?v=VsgpUHUYuJI"),
     isWatched: false,
+    assignedDate: now,
+    dueDate: DUE_DATE,
+  },
+  {
+    id: `${now}4`,
+    title: "Weather song",
+    url: getEmbedUrl("https://www.youtube.com/watch?v=D1qV5PsDoQw"),
+    isWatched: false,
+    assignedDate: now,
+    dueDate: DUE_DATE,
+  },
+  {
+    id: `${now}5`,
+    title: "Do you like lasagna milkshake",
+    url: getEmbedUrl(
+      "https://www.youtube.com/watch?v=13mftBvRmvM&list=RD13mftBvRmvM&start_radio=1"
+    ),
+    isWatched: false,
+    assignedDate: now,
+    dueDate: DUE_DATE,
+  },
+  {
+    id: `${now}6`,
+    title: "This is my happy face",
+    url: getEmbedUrl(
+      "https://www.youtube.com/watch?v=lQZX1IIAnLw&list=RDlQZX1IIAnLw&start_radio=1"
+    ),
+    isWatched: false,
+    assignedDate: now,
     dueDate: DUE_DATE,
   },
 ];
-*/

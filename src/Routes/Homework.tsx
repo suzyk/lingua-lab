@@ -4,7 +4,7 @@ import Video from "../Components/Video";
 import type { VideoHomework } from "../Model";
 import ConfettiExplosion from "react-confetti-explosion";
 import useFade from "../Util/useFade";
-import { fetchHomework } from "../Data/Data";
+import { defaultHomework, fetchHomework } from "../Data/Data";
 import { supabase } from "../supabaseClient";
 
 const Homework = () => {
@@ -36,20 +36,24 @@ const Homework = () => {
   });
 
   useEffect(() => {
-    if (!studentId) return;
+    if (!studentId) {
+      const defaultVideos = defaultHomework.map((video) => ({ ...video }));
+      setVideos(defaultVideos);
+      setLoading(false);
+    } else {
+      const loadHomework = async () => {
+        try {
+          const hw = await fetchHomework(studentId);
+          setVideos(hw);
+        } catch (err) {
+          console.error("Failed to fetch homework:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    const loadHomework = async () => {
-      try {
-        const hw = await fetchHomework(studentId);
-        setVideos(hw);
-      } catch (err) {
-        console.error("Failed to fetch homework:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadHomework();
+      loadHomework();
+    }
   }, [studentId]);
 
   useEffect(() => {
