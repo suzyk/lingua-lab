@@ -28,6 +28,19 @@ const Homework = () => {
   const [loading, setLoading] = useState(true);
   const [celebrate, setCelebrate] = useState(false);
 
+  const [userChecked, setUserChecked] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) setUser(user);
+      setUserChecked(true); // mark that we finished checking
+    };
+    fetchUser();
+  }, []);
+
   const allWatched = videos.every((v) => v.isWatched);
   const { shouldRender, fadeClass } = useFade(celebrate, {
     fadeIn: false,
@@ -36,6 +49,8 @@ const Homework = () => {
   });
 
   useEffect(() => {
+    if (!userChecked) return; //wait until user fetch finishes
+
     if (!studentId) {
       const defaultVideos = defaultHomework.map((video) => ({ ...video }));
       setVideos(defaultVideos);
@@ -54,7 +69,7 @@ const Homework = () => {
 
       loadHomework();
     }
-  }, [studentId]);
+  }, [studentId, userChecked]);
 
   useEffect(() => {
     if (videoId) {
