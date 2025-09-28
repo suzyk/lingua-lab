@@ -14,7 +14,7 @@ import Reset_Password from "./Components/Reset_Password";
 import Dashboard from "./Routes/Dashboard";
 
 function App() {
-  console.log("Redeploy test");
+  console.log("import.meta.env:", import.meta.env);
   return (
     <AudioProvider>
       <SpeechProvider>
