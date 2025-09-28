@@ -11,7 +11,8 @@ export interface VideoHomework {
   title: string; // homework.title
   url: string; // homework.video_url
   isWatched: boolean; // completed
-  dueDate?: string; // optional if you add deadlines
+  assignedDate: string;
+  dueDate: string;
   teacherComment?: string;
 }
 

@@ -4,7 +4,7 @@ import Video from "../Components/Video";
 import type { VideoHomework } from "../Model";
 import ConfettiExplosion from "react-confetti-explosion";
 import useFade from "../Util/useFade";
-import { HOMEWORK_DATE, homework, fetchHomework } from "../Data/Data"; // <-- added fetchHomework
+import { fetchHomework } from "../Data/Data";
 import { supabase } from "../supabaseClient";
 
 const Homework = () => {
@@ -20,31 +20,15 @@ const Homework = () => {
     };
     fetchUser();
   }, []);
+
   const studentId = user?.id;
   const videoId = location.state?.videoId;
-  console.log("in homework " + studentId + " " + videoId);
 
-  // ---------------- Old localStorage code ----------------
-  /*
-  const stored = JSON.parse(
-    localStorage.getItem(`homework-${HOMEWORK_DATE}`) || "{}"
-  );
-
-  const [videos, setVideos] = useState<VideoHomework[]>(
-    stored.videos?.length ? stored.videos : homework
-  );
-  */
-  // -------------------------------------------------------
-
-  // New state for fetched homework
   const [videos, setVideos] = useState<VideoHomework[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const allWatched = videos.every((v) => v.isWatched);
-  const [progress, setProgress] = useState(0);
-  const [showPage, setShowPage] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
 
+  const allWatched = videos.every((v) => v.isWatched);
   const { shouldRender, fadeClass } = useFade(celebrate, {
     fadeIn: false,
     fadeOut: true,
@@ -52,13 +36,10 @@ const Homework = () => {
   });
 
   useEffect(() => {
+    if (!studentId) return;
+
     const loadHomework = async () => {
       try {
-        if (!studentId) {
-          // fallback to static data if no studentId
-          setVideos(homework);
-          return;
-        }
         const hw = await fetchHomework(studentId);
         setVideos(hw);
       } catch (err) {
@@ -72,80 +53,30 @@ const Homework = () => {
   }, [studentId]);
 
   useEffect(() => {
-    if (showPage && videoId) {
+    if (videoId) {
       const el = document.getElementById(videoId);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
-  }, [showPage, videoId]);
+  }, [videoId, videos]);
 
-  // ---------------- Old localStorage save ----------------
-  /*
   useEffect(() => {
-    const homeworkInfo = {
-      videos,
-      celebrated: stored.celebrated || false,
-    };
-    localStorage.setItem(
-      `homework-${HOMEWORK_DATE}`,
-      JSON.stringify(homeworkInfo)
-    );
-  }, [videos]);
-  */
-  // -------------------------------------------------------
-
-  // Progress bar animation
-  useEffect(() => {
-    requestAnimationFrame(() => setProgress(100));
-    const timer = setTimeout(() => setShowPage(true), 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Celebrate effect once
-  useEffect(() => {
-    // ---------------- Old localStorage check ----------------
-    /*
-    const homeworkInfo = JSON.parse(
-      localStorage.getItem(`homework-${HOMEWORK_DATE}`) || "{}"
-    );
-
-    if (showPage && allWatched && !homeworkInfo.celebrated) {
-      setCelebrate(true);
-
-      // Update localStorage to mark as celebrated
-      localStorage.setItem(
-        `homework-${HOMEWORK_DATE}`,
-        JSON.stringify({ ...homeworkInfo, celebrated: true })
-      );
-
-      const t = setTimeout(() => setCelebrate(false), 1000);
-      return () => clearTimeout(t);
-    }
-    */
-    // -------------------------------------------------------
-
-    if (showPage && allWatched) {
+    if (allWatched && videos.length > 0) {
       setCelebrate(true);
       const t = setTimeout(() => setCelebrate(false), 1000);
       return () => clearTimeout(t);
     }
-  }, [showPage, allWatched]);
+  }, [allWatched, videos]);
 
-  // ---------------- Updated handleWatched ----------------
   const handleWatched = async (index: number) => {
     const video = videos[index];
 
-    console.log("handleWatched video:", video);
-    console.log("assignmentId:", video.assignmentId);
-
-    // Optimistic UI update
     setVideos((prev) =>
       prev.map((v, i) => (i === index ? { ...v, isWatched: true } : v))
     );
 
     try {
-      // Update database
       const { data, error } = await supabase
         .from("student_homework")
         .update({ completed: true })
@@ -161,50 +92,51 @@ const Homework = () => {
       console.error("Failed to mark homework as watched:", err);
     }
   };
-  // -------------------------------------------------------
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center  h-64 gap-4 w-full">
-        <div className="w-full h-1 bg-gray-200">
-          <div
-            className="h-full bg-blue-500 transition-all duration-1000 ease-linear"
-            style={{ width: `${progress}%` }}
-          />
+      <div className="flex flex-col items-center gap-4 w-full py-8">
+        <div className="w-full max-w-xl space-y-4 animate-pulse">
+          <div className="h-6 bg-gray-300 rounded w-2/3 mx-auto"></div>
+          <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
+
+          {Array(3)
+            .fill(0) // 3 arrays with 0 [0, 0, 0]
+            .map((_, i) => (
+              <div
+                key={i}
+                className="h-32 bg-gray-200 rounded-lg shadow-inner shadow-gray-300 flex items-center justify-center"
+              >
+                <span className="text-gray-400">Loading video...</span>
+              </div>
+            ))}
         </div>
-        <div className="text-gray-500 font-medium">Loading videos...</div>
-        <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
     <div className="flex flex-col flex-1 bg-white items-center justify-center w-full py-6 px-4 sm:px-6 md:px-8">
-      {showPage && (
-        <div className="w-full max-w-xl flex flex-col gap-6">
-          <h3 className="text-gray-500 font-medium text-lg sm:text-xl text-center">
-            {videos.length === 0 ? (
-              "Ödev bulunmadı 😅"
-            ) : (
-              <>
-                Madalyanın kilidini açmak için{" "}
-                <strong className="text-blue-600 underline">'Done'</strong>{" "}
-                düğmesine tıklayın! 🏅
-              </>
-            )}
-          </h3>
-          <ul className="flex flex-col gap-6">
-            {videos.map((video, index) => (
-              <li key={`homework_${video.id}`} id={video.id}>
-                <Video
-                  video={video}
-                  handleWatched={() => handleWatched(index)}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div className="w-full max-w-xl flex flex-col gap-6">
+        <h3 className="text-gray-500 font-medium text-lg sm:text-xl text-center">
+          {videos.length === 0 ? (
+            "Ödev bulunmadı 😅"
+          ) : (
+            <>
+              Madalyanın kilidini açmak için{" "}
+              <strong className="text-blue-600 underline">'Done'</strong>{" "}
+              düğmesine tıklayın! 🏅
+            </>
+          )}
+        </h3>
+        <ul className="flex flex-col gap-6">
+          {videos.map((video, index) => (
+            <li key={`homework_${video.id}`} id={video.id}>
+              <Video video={video} handleWatched={() => handleWatched(index)} />
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {shouldRender && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gray-300">

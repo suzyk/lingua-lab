@@ -31,8 +31,9 @@ export default function Dashboard() {
     <div className="p-6">
       {user ? (
         <div className="flex flex-col justify-center">
-          <div className="flex flex-row justify-between items-center my-8">
-            <div>
+          {/* Welcome + Logout */}
+          <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left my-8 w-full">
+            <div className="flex flex-col items-center sm:items-start gap-1">
               <h1 className="text-2xl font-bold">
                 Hoşgeldin,{" "}
                 <span className="text-yellow-800">
@@ -40,20 +41,30 @@ export default function Dashboard() {
                 </span>
               </h1>
               <p className="text-gray-600">Giriş yaptınız 🎉</p>
-            </div>
-            <div>
+              {/* Subtle logout button for mobile */}
               <button
-                className="text-gray-500 hover:underline"
+                className="text-gray-400 hover:text-gray-600 text-sm font-normal mt-1 sm:hidden transition"
                 onClick={handleSignOut}
               >
-                çıkıs yap
+                çıkış yap
+              </button>
+            </div>
+
+            {/* Logout button for larger screens */}
+            <div className="hidden sm:block">
+              <button
+                className="text-gray-500 hover:underline transition"
+                onClick={handleSignOut}
+              >
+                çıkış yap
               </button>
             </div>
           </div>
+
+          {/* Homework tracker */}
           <div className="flex justify-center">
             <HomeworkTracker studentId={user.id} />
           </div>
-          {/* <HomeworkTracker studentId="c6849016-3ebb-4a99-8483-26e0fcd5d89f" /> */}
         </div>
       ) : (
         <p>Loading...</p>

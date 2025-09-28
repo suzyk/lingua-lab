@@ -96,7 +96,7 @@ export default function Auth() {
     if (error) setMessage(translateError(error));
     else {
       setMessage("Başarıyla giriş yaptınız!");
-      navigate("/");
+      navigate("/dashboard");
     }
     setEmailLoading(false);
   };

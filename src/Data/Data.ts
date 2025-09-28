@@ -1,5 +1,4 @@
 import type { VideoHomework, Word } from "../Model";
-import { v4 as uuidv4 } from "uuid";
 import { supabase } from "../supabaseClient";
 
 export const HOMEWORK_DATE = "2025-08-28";
@@ -42,7 +41,7 @@ export async function fetchHomework(
     .eq("student_id", studentId)
     .order("assigned_at", { ascending: false });
 
-  console.log("Homework rows:", data, "Error:", error);
+  //console.log("Homework rows:", data, "Error:", error);
 
   if (error) {
     console.error("Supabase fetch error:", error);
@@ -56,11 +55,12 @@ export async function fetchHomework(
     title: item.homework.title as string,
     url: getEmbedUrl(item.homework.video_url as string),
     isWatched: item.completed as boolean,
-    dueDate: item.due_date ?? undefined,
+    assignedDate: item.assigned_at as string,
+    dueDate: item.due_date as string,
     teacherComment: item.teacher_comment ?? undefined,
   }));
 }
-
+/*
 export const homework: VideoHomework[] = [
   {
     id: uuidv4(),
@@ -91,3 +91,4 @@ export const homework: VideoHomework[] = [
     dueDate: DUE_DATE,
   },
 ];
+*/
