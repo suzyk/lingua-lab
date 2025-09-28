@@ -14,6 +14,7 @@ import Reset_Password from "./Components/Reset_Password";
 import Dashboard from "./Routes/Dashboard";
 
 function App() {
+  console.log("Redeploy test");
   return (
     <AudioProvider>
       <SpeechProvider>
