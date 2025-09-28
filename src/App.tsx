@@ -1,4 +1,3 @@
-//import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Home from "./Routes/Home";
 import Games from "./Routes/Games";

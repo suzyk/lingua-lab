@@ -1,3 +1,5 @@
+import React from "react";
+
 const Contact = () => {
   return (
     <div className="flex flex-col items-center justify-center px-6 py-6 flex-1 bg-white">

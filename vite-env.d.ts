@@ -1,6 +1,6 @@
+/// <reference types="vite/client" />
 // this file doesn't store real values, only has typescript descriptions
 interface ImportMetaEnv {
-  readonly MODE: string;
   readonly VITE_BASE_URL: string;
   readonly VITE_SUPABASE_URL: string;
   readonly VITE_SUPABASE_ANON_KEY: string;
