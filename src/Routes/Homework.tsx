@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Video from "../Components/Video";
 import type { VideoHomework } from "../Model";
 import ConfettiExplosion from "react-confetti-explosion";
@@ -10,6 +10,7 @@ import { supabase } from "../supabaseClient";
 const Homework = () => {
   const location = useLocation();
   const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -29,6 +30,7 @@ const Homework = () => {
   const [celebrate, setCelebrate] = useState(false);
 
   const [userChecked, setUserChecked] = useState(false);
+  const hasScrolledRef = useRef(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -72,10 +74,14 @@ const Homework = () => {
   }, [studentId, userChecked]);
 
   useEffect(() => {
-    if (videoId) {
+    if (videoId && videos.length > 0 && !hasScrolledRef.current) {
       const el = document.getElementById(videoId);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "center" });
+        hasScrolledRef.current = true;
+
+        // Clear videoId from history so refresh won’t bring it back
+        navigate(location.pathname, { replace: true, state: {} });
       }
     }
   }, [videoId, videos]);
@@ -163,6 +169,7 @@ const Homework = () => {
           {videos.map((video, index) => (
             <li
               key={video.id}
+              id={video.id}
               className="bg-white rounded-xl shadow-md overflow-hidden"
             >
               {/* Video title */}
