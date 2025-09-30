@@ -31,6 +31,7 @@ export async function fetchHomework(
         completed,
         teacher_comment,
         due_date,
+        sort_order,
         homework (
           id,
           title,
@@ -39,7 +40,7 @@ export async function fetchHomework(
       `
     )
     .eq("student_id", studentId)
-    .order("assigned_at", { ascending: false });
+    .order("sort_order", { ascending: true });
 
   //console.log("Homework rows:", data, "Error:", error);
 

@@ -149,26 +149,42 @@ const Homework = () => {
   }
 
   return (
-    <div className="flex flex-col flex-1 bg-white items-center justify-center w-full py-6 px-4 sm:px-6 md:px-8">
+    <div className="flex flex-col flex-1 bg-gray-50 items-center justify-start w-full py-6 px-4 sm:px-6 md:px-8">
       <div className="w-full max-w-xl flex flex-col gap-6">
-        <h3 className="text-gray-500 font-medium text-lg sm:text-xl text-center">
-          <>
-            Madalyanın kilidini açmak için{" "}
-            <strong className="text-blue-600 underline">'Done'</strong>{" "}
-            düğmesine tıklayın! 🏅
-          </>
+        {/* Teacher's message */}
+        <h3 className="text-gray-600 font-medium text-lg sm:text-xl text-center px-4 py-2 bg-white rounded-lg shadow-sm">
+          Madalyanın kilidini açmak için{" "}
+          <strong className="text-blue-600 underline">'Done'</strong> düğmesine
+          tıklayın! 🏅
         </h3>
+
+        {/* Video list */}
         <ul className="flex flex-col gap-6">
           {videos.map((video, index) => (
-            <li key={`homework_${video.id}`} id={video.id}>
-              <Video video={video} handleWatched={() => handleWatched(index)} />
+            <li
+              key={video.id}
+              className="bg-white rounded-xl shadow-md overflow-hidden"
+            >
+              {/* Video title */}
+              <div className="bg-yellow-100 text-yellow-800 font-semibold text-lg sm:text-xl text-center py-3 px-4">
+                {video.title}
+              </div>
+
+              {/* Video player */}
+              <div className="p-4">
+                <Video
+                  video={video}
+                  handleWatched={() => handleWatched(index)}
+                />
+              </div>
             </li>
           ))}
         </ul>
       </div>
 
+      {/* Confetti modal */}
       {shouldRender && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gray-300">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gray-300 bg-opacity-50">
           <div className="absolute top-10 flex items-center justify-center">
             <ConfettiExplosion
               width={window.innerWidth}

@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [emailLoading, setEmailLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -31,6 +32,9 @@ export default function Auth() {
       return "Geçerli bir e-posta adresi giriniz.";
     if (msg.includes("email not confirmed"))
       return "E-posta adresinizi onaylamanız gerekiyor.";
+    if (msg.includes("user already registered"))
+      return "Bu e-posta zaten kayıtlı. Lütfen giriş yapın.";
+
     return error.message;
   };
 
@@ -59,6 +63,16 @@ export default function Auth() {
       setEmailLoading(false);
       return;
     }
+    if (!confirmPassword) {
+      setMessage("Lütfen şifreyi tekrar giriniz.");
+      setEmailLoading(false);
+      return;
+    }
+    if (password !== confirmPassword) {
+      setMessage("Şifreler eşleşmiyor.");
+      setEmailLoading(false);
+      return;
+    }
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -84,7 +98,7 @@ export default function Auth() {
     });
     if (error) setMessage(translateError(error));
     else {
-      navigate(redirectBase); // NameForm check will happen in dashboard
+      navigate(redirectBase);
     }
     setEmailLoading(false);
   };
@@ -131,7 +145,7 @@ export default function Auth() {
         </div>
 
         {/* Password */}
-        <div className="mb-6">
+        <div className="mb-4">
           <label className="mb-1 block text-sm font-medium text-gray-700">
             Şifre
           </label>
@@ -143,6 +157,22 @@ export default function Auth() {
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
           />
         </div>
+
+        {/* Confirm Password (only for sign up) */}
+        {isSignUp && (
+          <div className="mb-6">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Şifre (Tekrar)
+            </label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            />
+          </div>
+        )}
 
         {/* Submit */}
         <button

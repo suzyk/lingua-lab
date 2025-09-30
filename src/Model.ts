@@ -14,6 +14,7 @@ export interface VideoHomework {
   assignedDate: string;
   dueDate: string;
   teacherComment?: string;
+  sort_order?: number;
 }
 
 export interface Word {
