@@ -18,14 +18,22 @@ const NameForm = ({ onComplete }: NameFormProps) => {
     setErrorMsg("");
 
     try {
-      // Update the current user's student_name in Supabase Auth user_metadata
-      const { error } = await supabase.auth.updateUser({
-        data: { student_name: studentName.trim() },
-      });
+      // 1️⃣ Update Auth user metadata
+      const { data: updatedUser, error: authError } =
+        await supabase.auth.updateUser({
+          data: { student_name: studentName.trim() },
+        });
+      if (authError) throw authError;
 
-      if (error) throw error;
+      // 2️⃣ Upsert into students table (safe for v2 + RLS)
+      const { error: insertError } = await supabase.from("students").upsert(
+        { id: updatedUser.user?.id, full_name: studentName.trim() }, // single object
+        { onConflict: "id" } // string
+      );
 
-      // Notify parent component
+      if (insertError) throw insertError;
+
+      // 3️⃣ Notify parent component
       onComplete(studentName.trim());
     } catch (err: any) {
       console.error("İsim güncellenemedi:", err);

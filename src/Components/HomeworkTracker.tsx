@@ -64,7 +64,7 @@ const HomeworkTracker = ({ studentId }: Props) => {
   }
 
   return (
-    <div className="flex flex-col w-full max-w-md p-6 sm:p-8 justify-center items-center bg-stone-50 rounded-2xl shadow-lg shadow-stone-200">
+    <div className="flex flex-col w-full max-w-lg p-6 sm:p-8 justify-center items-center bg-stone-50 rounded-2xl shadow-lg shadow-stone-200">
       <h1 className="text-2xl sm:text-3xl font-bold text-yellow-900 text-center">
         Ödev Takipçisi
       </h1>

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 export default function Auth() {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailLoading, setEmailLoading] = useState(false);
@@ -14,18 +13,14 @@ export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ redirect base URL (easy to update later)
   const redirectBase =
     import.meta.env.MODE === "development"
       ? "http://localhost:5173/dashboard"
       : "https://lingualab-tr.vercel.app/dashboard";
 
-  // 🔹 Error translation helper
   const translateError = (error: any) => {
     if (!error?.message) return "Bilinmeyen bir hata oluştu.";
-
     const msg = error.message.toLowerCase();
-
     if (msg.includes("invalid login credentials"))
       return "E-posta veya şifre yanlış.";
     if (msg.includes("password should be at least"))
@@ -36,8 +31,7 @@ export default function Auth() {
       return "Geçerli bir e-posta adresi giriniz.";
     if (msg.includes("email not confirmed"))
       return "E-posta adresinizi onaylamanız gerekiyor.";
-
-    return error.message; // fallback (English)
+    return error.message;
   };
 
   const handleGoogleLogin = async () => {
@@ -55,7 +49,6 @@ export default function Auth() {
   const handleEmailSignUp = async () => {
     setEmailLoading(true);
 
-    // Client-side quick checks
     if (!email.includes("@")) {
       setMessage("Geçerli bir e-posta adresi giriniz.");
       setEmailLoading(false);
@@ -66,24 +59,20 @@ export default function Auth() {
       setEmailLoading(false);
       return;
     }
-    if (!name.trim()) {
-      setMessage("Lütfen adınızı giriniz.");
-      setEmailLoading(false);
-      return;
-    }
 
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: {
-          full_name: name.trim(),
-        },
+        emailRedirectTo: redirectBase,
       },
     });
 
-    if (error) setMessage(translateError(error));
-    else setMessage("E-postanızı kontrol edin, doğrulama linki gönderildi!");
+    if (error) {
+      setMessage(translateError(error));
+    } else {
+      setMessage("E-postanızı kontrol edin, doğrulama linki gönderildi!");
+    }
     setEmailLoading(false);
   };
 
@@ -95,8 +84,7 @@ export default function Auth() {
     });
     if (error) setMessage(translateError(error));
     else {
-      setMessage("Başarıyla giriş yaptınız!");
-      navigate("/dashboard");
+      navigate(redirectBase); // NameForm check will happen in dashboard
     }
     setEmailLoading(false);
   };
@@ -106,11 +94,9 @@ export default function Auth() {
       setMessage("Lütfen önce e-posta adresinizi girin.");
       return;
     }
-
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${redirectBase}/reset-password`,
     });
-
     if (error) setMessage(translateError(error));
     else setMessage("Şifre sıfırlama linki e-postanıza gönderildi.");
   };
@@ -129,22 +115,6 @@ export default function Auth() {
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
           {isSignUp ? "Hesap Oluşturun" : "Giriş Yap"}
         </h2>
-
-        {/* Display name */}
-        {isSignUp && (
-          <div className="mb-4">
-            <label className="mb-1 block text-sm font-medium text-gray-700">
-              Öğrenci Adı
-            </label>
-            <input
-              type="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Adı"
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
-            />
-          </div>
-        )}
 
         {/* Email */}
         <div className="mb-4">
@@ -174,7 +144,7 @@ export default function Auth() {
           />
         </div>
 
-        {/* Submit button */}
+        {/* Submit */}
         <button
           onClick={handleSubmit}
           disabled={emailLoading || googleLoading}
@@ -197,7 +167,7 @@ export default function Auth() {
           )}
         </button>
 
-        {/* Google button */}
+        {/* Google */}
         <button
           onClick={handleGoogleLogin}
           disabled={emailLoading || googleLoading}
@@ -219,7 +189,7 @@ export default function Auth() {
           )}
         </button>
 
-        {/* Toggle between login/signup */}
+        {/* Toggle */}
         <p className="text-center text-sm text-gray-600">
           {isSignUp ? (
             <>
@@ -255,7 +225,6 @@ export default function Auth() {
           </p>
         )}
 
-        {/* Message */}
         {message && (
           <p className="mt-4 text-center text-sm text-red-500">{message}</p>
         )}
