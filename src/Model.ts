@@ -18,7 +18,7 @@ export interface VideoHomework {
 }
 
 export interface Word {
-  theme: string;
+  category: string;
   text: string;
   audio_url?: string;
   image_url: string;

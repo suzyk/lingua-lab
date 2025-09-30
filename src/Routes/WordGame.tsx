@@ -4,7 +4,7 @@ import { Card_Types, GameActionTypes } from "../Model"; // runtime values
 import type { Word, GameAction, WordGameState } from "../Model"; // types only
 import { randomNoRepeats } from "../Util/Util";
 import GameScore from "../Components/GameScore";
-import { targetWords } from "../Data/Data";
+import { flashcards } from "../Data/targetWords";
 import { usePopSound, useWrongSound } from "../Context/AudioProvider";
 import { useSpeech } from "../Context/SpeechProvider";
 
@@ -12,7 +12,7 @@ const MAX_CARD = 5;
 
 // 🟢 Lazy initializer to avoid reshuffle on every render
 function initWordGame(): WordGameState {
-  const wordSet: Word[] = [...targetWords];
+  const wordSet: Word[] = [...flashcards];
   const cappedRandom = randomNoRepeats(wordSet.length);
 
   // reduce to MAX_CARD

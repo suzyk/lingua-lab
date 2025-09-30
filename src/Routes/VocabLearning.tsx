@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card_Types, type Word } from "../Model";
-import { targetWords } from "../Data/Data";
+import { flashcards } from "../Data/targetWords";
 import { randomNoRepeats } from "../Util/Util";
 import WordCard from "../Components/WordCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -11,7 +11,7 @@ import { useSpeech } from "../Context/SpeechProvider";
 const VocabLearning = () => {
   const playClickSound = useClickSound();
   const { speak } = useSpeech();
-  const words: Word[] = [...targetWords];
+  const words: Word[] = [...flashcards];
   const [randomizer] = useState(() => randomNoRepeats(words.length));
   const [page, setPage] = useState(0);
   const itemPerWindow = 4;
@@ -41,7 +41,7 @@ const VocabLearning = () => {
       {/* Colored Game board */}
       <div className="learnBoard ">
         <h2 className="py-4 text-2xl sm:text-3xl text-gray-500 font-bold text-center">
-          {words[0].theme}
+          {words[0].category}
         </h2>
         {/** Display Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 auto-fit">
