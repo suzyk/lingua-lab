@@ -8,19 +8,32 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [studentName, setStudentName] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
       if (user) {
         setUser(user);
-        // Set studentName from display name if it exists
-        const studentNameFromMetadata = user.user_metadata?.student_name || "";
-        setStudentName(studentNameFromMetadata);
+
+        // Fetch student name from student table
+        const { data, error } = await supabase
+          .from("students")
+          .select("full_name")
+          .eq("id", user.id)
+          .single();
+
+        if (!error && data) {
+          setStudentName(data.full_name);
+        }
       }
+
+      setLoading(false); // sets after name fetch
     };
+
     fetchUser();
   }, []);
 
@@ -30,14 +43,17 @@ export default function Dashboard() {
     if (error) {
       console.error("Sign out error:", error);
     } else {
-      // Navigate to homepage after successful logout
       navigate("/");
     }
   };
 
+  if (loading) {
+    return <p>Loading...</p>; // Show this while fetching user & student name
+  }
+
   return (
     <div className="p-6 relative">
-      {user ? (
+      {user && (
         <div className="flex flex-col justify-center">
           {/* Welcome + Logout */}
           <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left my-8 w-full">
@@ -76,8 +92,6 @@ export default function Dashboard() {
             <HomeworkTracker studentId={user.id} />
           </div>
         </div>
-      ) : (
-        <p>Loading...</p>
       )}
     </div>
   );
