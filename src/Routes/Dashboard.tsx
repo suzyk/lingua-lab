@@ -3,6 +3,7 @@ import { supabase } from "../supabaseClient";
 import HomeworkTracker from "../Components/HomeworkTracker";
 import { useNavigate } from "react-router-dom";
 import NameForm from "../Components/NameForm";
+import PerformanceMetrics from "../Components/PerformanceMetrics";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -87,9 +88,16 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Homework tracker */}
-          <div className="flex justify-center">
-            <HomeworkTracker studentId={user.id} />
+          {/* informational panels */}
+          <div className="flex flex-col sm:flex-row">
+            {/* Homework tracker */}
+            <div className="flex justify-center">
+              <HomeworkTracker studentId={user.id} />
+            </div>
+            {/* Homework Completion Rate */}
+            <div className="flex justify-center">
+              <PerformanceMetrics />
+            </div>
           </div>
         </div>
       )}
