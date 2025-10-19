@@ -89,7 +89,7 @@ export default function Dashboard() {
           </div>
 
           {/* informational panels */}
-          <div className="flex flex-col sm:flex-row">
+          <div className="flex flex-col gap-5 lg:flex-row justify-center">
             {/* Homework tracker */}
             <div className="flex justify-center">
               <HomeworkTracker studentId={user.id} />

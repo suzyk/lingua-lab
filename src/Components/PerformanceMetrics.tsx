@@ -56,7 +56,7 @@ const PerformanceMetrics = ({ studentId }: Props) => {
     <div className="flex flex-col w-full max-w-lg p-6 sm:p-8 justify-center items-center bg-stone-50 rounded-2xl shadow-lg shadow-stone-200">
       {/* Homework Completion rate */}
 
-      <h1 className="text-2xl sm:text-3xl font-bold text-yellow-900 text-center">
+      <h1 className="text-2xl sm:text-3xl font-bold text-yellow-900 text-center mb-5">
         Ödev Tamamlama Oranı
       </h1>
       <div className="relative w-56 h-56">
