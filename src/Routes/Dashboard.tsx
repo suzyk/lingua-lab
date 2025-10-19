@@ -96,7 +96,7 @@ export default function Dashboard() {
             </div>
             {/* Homework Completion Rate */}
             <div className="flex justify-center">
-              <PerformanceMetrics />
+              <PerformanceMetrics studentId={user.id} />
             </div>
           </div>
         </div>

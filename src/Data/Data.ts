@@ -1,4 +1,4 @@
-import type { VideoHomework } from "../Model";
+import type { HWSummary, VideoHomework } from "../Model";
 import { supabase } from "../supabaseClient";
 
 //export const HOMEWORK_DATE = "2025-08-28";
@@ -9,6 +9,35 @@ const getEmbedUrl = (url: string) => {
   return match ? `https://www.youtube.com/embed/${match[1]}` : url;
 };
 
+export async function fetchHTSummary(
+  studentId: string
+): Promise<HWSummary | null> {
+  const { data, error } = await supabase
+    .from("student_homework_summary")
+    .select(
+      `
+        id,
+        completion_rate,
+        homework_given,
+        homework_done
+      `
+    )
+    .eq("student_id", studentId)
+    .single(); // <-- returns one object instead of an array
+
+  if (error) {
+    console.error("Supabase HW summary fetch error", error);
+    return null;
+  }
+  if (!data) return null;
+
+  return {
+    id: data.id as string,
+    completionRate: data.completion_rate as number,
+    homework_given: data.homework_given as number,
+    homework_done: data.homework_done as number,
+  };
+}
 export async function fetchHomework(
   studentId: string
 ): Promise<VideoHomework[]> {

@@ -5,6 +5,12 @@
   isWatched: boolean;
   dueDate: string;
 }*/
+export interface HWSummary {
+  id: string;
+  homework_given: number;
+  homework_done: number;
+  completionRate: number;
+}
 export interface VideoHomework {
   assignmentId?: string; // student_homework.id
   id?: string;
