@@ -1,5 +1,5 @@
-import { Card_Types } from "../Model";
-import type { Word } from "../Model";
+import { Card_Types } from "../Model/Model";
+import type { Word } from "../Model/Model";
 import { CircleCheck } from "lucide-react";
 
 interface Props {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchHomework } from "../Data/Data";
-import type { VideoHomework } from "../Model";
+import type { VideoHomework } from "../Model/Model";
 
 interface Props {
   studentId: string;

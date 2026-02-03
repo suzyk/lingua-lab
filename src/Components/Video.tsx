@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { VideoHomework } from "../Model";
+import type { VideoHomework } from "../Model/Model";
 
 interface Props {
   video: VideoHomework;

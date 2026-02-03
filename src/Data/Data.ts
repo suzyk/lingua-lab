@@ -1,4 +1,4 @@
-import type { HWSummary, VideoHomework } from "../Model";
+import type { HWSummary, VideoHomework } from "../Model/Model";
 import { supabase } from "../supabaseClient";
 
 //export const HOMEWORK_DATE = "2025-08-28";

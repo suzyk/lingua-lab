@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import WordCard from "../Components/WordCard";
-import { Card_Types, GameActionTypes } from "../Model"; // runtime values
-import type { Word, GameAction, WordGameState } from "../Model"; // types only
+import { Card_Types, GameActionTypes } from "../Model/Model"; // runtime values
+import type { Word, GameAction, WordGameState } from "../Model/Model"; // types only
 import { randomNoRepeats } from "../Util/Util";
 import GameScore from "../Components/GameScore";
 import { flashcards } from "../Data/targetWords";

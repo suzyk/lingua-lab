@@ -1,4 +1,4 @@
-import type { Word } from "../Model";
+import type { Word } from "../Model/Model";
 
 // loads all .png images in flashcards (recursive)
 // glob returns an object, not an array, of {key(path) and value(module)}

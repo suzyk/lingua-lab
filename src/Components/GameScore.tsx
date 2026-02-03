@@ -1,5 +1,5 @@
 import ScoreStars from "./ScoreStars";
-import { GameActionTypes, type GameAction } from "../Model";
+import { GameActionTypes, type GameAction } from "../Model/Model";
 
 const MAX_STARS = 3;
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card_Types, type Word } from "../Model";
+import { Card_Types, type Word } from "../Model/Model";
 import { flashcards } from "../Data/targetWords";
 import { randomNoRepeats } from "../Util/Util";
 import WordCard from "../Components/WordCard";

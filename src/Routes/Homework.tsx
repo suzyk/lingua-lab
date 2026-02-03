@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Video from "../Components/Video";
-import type { VideoHomework } from "../Model";
+import type { VideoHomework } from "../Model/Model";
 import ConfettiExplosion from "react-confetti-explosion";
 import useFade from "../Util/useFade";
 import { defaultHomework, fetchHomework } from "../Data/Data";

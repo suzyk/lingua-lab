@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 import HomeworkTracker from "../Components/HomeworkTracker";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NameForm from "../Components/NameForm";
 import PerformanceMetrics from "../Components/PerformanceMetrics";
 
@@ -97,6 +97,11 @@ export default function Dashboard() {
             {/* Homework Completion Rate */}
             <div className="flex justify-center">
               <PerformanceMetrics studentId={user.id} />
+            </div>
+            <div className="flex justify-center">
+              <div>
+                <Link to="/quiz">Go to Quiz</Link>
+              </div>
             </div>
           </div>
         </div>
