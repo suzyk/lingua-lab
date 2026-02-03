@@ -1,4 +1,4 @@
-import type { Word } from "./Model";
+import type { GameActionTypes, Word } from "./Model";
 
 export interface QuizState {
   words: Word[];
